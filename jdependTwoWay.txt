@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<JDepend>
+    <Packages>
+
+        <Package name="java.io">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.lang">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.lang.reflect">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.math">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.net">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.nio.channels">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.security">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util.concurrent">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util.regex">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util.zip">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.gradle.cli">
+            <Stats>
+                <TotalClasses>24</TotalClasses>
+                <ConcreteClasses>18</ConcreteClasses>
+                <AbstractClasses>6</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>3</Ce>
+                <A>0.25</A>
+                <I>0.75</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="AbstractCommandLineConverter.java">
+                    org.gradle.cli.AbstractCommandLineConverter
+                </Class>
+                <Class sourceFile="AbstractPropertiesCommandLineConverter.java">
+                    org.gradle.cli.AbstractPropertiesCommandLineConverter
+                </Class>
+                <Class sourceFile="CommandLineConverter.java">
+                    org.gradle.cli.CommandLineConverter
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$OptionAwareParserState
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$OptionParserState
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$ParserState
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="CommandLineArgumentException.java">
+                    org.gradle.cli.CommandLineArgumentException
+                </Class>
+                <Class sourceFile="CommandLineOption.java">
+                    org.gradle.cli.CommandLineOption
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$1
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$AfterFirstSubCommand
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$AfterOptions
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$BeforeFirstSubCommand
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$CaseInsensitiveStringComparator
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$KnownOptionParserState
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$MissingOptionArgState
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$OptionComparator
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$OptionString
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$OptionStringComparator
+                </Class>
+                <Class sourceFile="CommandLineParser.java">
+                    org.gradle.cli.CommandLineParser$UnknownOptionParserState
+                </Class>
+                <Class sourceFile="ParsedCommandLine.java">
+                    org.gradle.cli.ParsedCommandLine
+                </Class>
+                <Class sourceFile="ParsedCommandLineOption.java">
+                    org.gradle.cli.ParsedCommandLineOption
+                </Class>
+                <Class sourceFile="ProjectPropertiesCommandLineConverter.java">
+                    org.gradle.cli.ProjectPropertiesCommandLineConverter
+                </Class>
+                <Class sourceFile="SystemPropertiesCommandLineConverter.java">
+                    org.gradle.cli.SystemPropertiesCommandLineConverter
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.gradle.wrapper</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.gradle.wrapper">
+            <Stats>
+                <TotalClasses>14</TotalClasses>
+                <ConcreteClasses>13</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>12</Ce>
+                <A>0.07</A>
+                <I>1</I>
+                <D>0.07</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="IDownload.java">
+                    org.gradle.wrapper.IDownload
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="BootstrapMainStarter.java">
+                    org.gradle.wrapper.BootstrapMainStarter
+                </Class>
+                <Class sourceFile="Download.java">
+                    org.gradle.wrapper.Download
+                </Class>
+                <Class sourceFile="Download.java">
+                    org.gradle.wrapper.Download$1
+                </Class>
+                <Class sourceFile="Download.java">
+                    org.gradle.wrapper.Download$SystemPropertiesProxyAuthenticator
+                </Class>
+                <Class sourceFile="ExclusiveFileAccessManager.java">
+                    org.gradle.wrapper.ExclusiveFileAccessManager
+                </Class>
+                <Class sourceFile="GradleWrapperMain.java">
+                    org.gradle.wrapper.GradleWrapperMain
+                </Class>
+                <Class sourceFile="Install.java">
+                    org.gradle.wrapper.Install
+                </Class>
+                <Class sourceFile="Install.java">
+                    org.gradle.wrapper.Install$1
+                </Class>
+                <Class sourceFile="PathAssembler.java">
+                    org.gradle.wrapper.PathAssembler
+                </Class>
+                <Class sourceFile="PathAssembler.java">
+                    org.gradle.wrapper.PathAssembler$LocalDistribution
+                </Class>
+                <Class sourceFile="SystemPropertiesHandler.java">
+                    org.gradle.wrapper.SystemPropertiesHandler
+                </Class>
+                <Class sourceFile="WrapperConfiguration.java">
+                    org.gradle.wrapper.WrapperConfiguration
+                </Class>
+                <Class sourceFile="WrapperExecutor.java">
+                    org.gradle.wrapper.WrapperExecutor
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>java.math</Package>
+                <Package>java.net</Package>
+                <Package>java.nio.channels</Package>
+                <Package>java.security</Package>
+                <Package>java.util</Package>
+                <Package>java.util.concurrent</Package>
+                <Package>java.util.regex</Package>
+                <Package>java.util.zip</Package>
+                <Package>org.gradle.cli</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+    </Packages>
+
+    <Cycles>
+    </Cycles>
+</JDepend>
