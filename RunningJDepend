@@ -1,0 +1,10 @@
+Running JDepend on Command Line from jdepend folder:
+java -cp ./lib/jdepend-2.9.1.jar (Filepath) > /(filepath to CPSC410Project folder)/(newtext.txt)
+
+Large efferent couplings mean that classes are unfocused, brittle.
+
+Conversely, large afferent couplings mean that they are responsible, stable.
+
+Will write new text file for output
+
+http://www.onjava.com/pub/a/onjava/2004/01/21/jdepend.html
