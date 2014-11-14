@@ -40,10 +40,8 @@ public class PMDAnalyzer extends Analyzer {
 		} catch (IOException e){
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		System.out.println("Done!");
