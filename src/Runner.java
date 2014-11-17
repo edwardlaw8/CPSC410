@@ -14,6 +14,8 @@ public class Runner {
 		JDAnalyzer jdAnalyzer = new JDAnalyzer(src);
 		ArrayList packageList = jdAnalyzer.analyzeThis();
 		Fuser fuser = new Fuser(violations, packageList);
+		
+		//Add output of Fuser to Visualizer
 
 	}
 	

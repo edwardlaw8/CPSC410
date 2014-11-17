@@ -23,7 +23,7 @@ public class PMDAnalyzer extends Analyzer {
 		int violations = 0;
 		try{	
 			
-			Process p = Runtime.getRuntime().exec("cmd /c " + pmd_loc +  " -d " + src + " -f xml -R rulesets/java/imports.xml");
+			Process p = Runtime.getRuntime().exec("cmd /c " + pmd_loc +  " -d " + src + " -f xml -R rulesets/java/basic.xml");
 			DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 			Document doc = (Document) fac.newDocumentBuilder().parse(p.getInputStream());
 			

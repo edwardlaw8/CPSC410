@@ -18,14 +18,22 @@ public class JDAnalyzer extends Analyzer {
 		
 		//TODO: Need way to grab package names and classes in each package
 		JDependOutput = jd.jdAnaylze(args);
+		getNumberOfClasses(JDependOutput);
+		getPackageName(JDependOutput);
 		
 		return JDependOutput;
 		
 	}
 	
-	public ArrayList getClasses() {
+	public int getNumberOfClasses(ArrayList JDependOutput) {
 		//Get classes associated with each package
-		return JDependOutput;
+		int counter = 0;
+		for (int i = 0; i < JDependOutput.size(); i++) {
+			while (JDependOutput.get(i).getClass() != null) {
+			counter ++;
+			}
+		}
+		return counter;
 		
 	}
 	
