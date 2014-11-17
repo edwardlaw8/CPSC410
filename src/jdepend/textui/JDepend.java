@@ -103,7 +103,7 @@ public class JDepend {
      */
     public ArrayList analyze() {
 
-        printHeader();
+//        printHeader();
 
         Collection packages = analyzer.analyze();
 
@@ -111,63 +111,82 @@ public class JDepend {
 
         Collections.sort(packageList, new PackageComparator(PackageComparator
                 .byName()));
+        
 
         printPackages(packageList);
 
-        printCycles(packageList);
+//       printCycles(packageList);
 
-        printSummary(packageList);
+//        printSummary(packageList);
 
-        printFooter();
+//       printFooter();
 
-        getWriter().flush();
+//        getWriter().flush();
         
         return packageList;
     }
 
     protected void printPackages(Collection packages) {
-        printPackagesHeader();
+ //       printPackagesHeader();
 
         Iterator i = packages.iterator();
         while (i.hasNext()) {
             printPackage((JavaPackage) i.next());
         }
 
-        printPackagesFooter();
+//        printPackagesFooter();
     }
 
     protected void printPackage(JavaPackage jPackage) {
 
-        printPackageHeader(jPackage);
+//        printPackageHeader(jPackage);
 
         if (jPackage.getClasses().size() == 0) {
             printNoStats();
-            printPackageFooter(jPackage);
+//           printPackageFooter(jPackage);
             return;
         }
 
-        printStatistics(jPackage);
+ //       printStatistics(jPackage);
+        printNumberofClasses(jPackage);
+        printInstabilityRating(jPackage);
+        printPackageNames(jPackage);
 
-        printSectionBreak();
+//        printSectionBreak();
 
-        printAbstractClasses(jPackage);
+//        printAbstractClasses(jPackage);
 
-        printSectionBreak();
+//        printSectionBreak();
 
-        printConcreteClasses(jPackage);
+//        printConcreteClasses(jPackage);
 
-        printSectionBreak();
+//        printSectionBreak();
 
-        printEfferents(jPackage);
+//        printEfferents(jPackage);
 
-        printSectionBreak();
+//        printSectionBreak();
 
-        printAfferents(jPackage);
+//        printAfferents(jPackage);
 
-        printPackageFooter(jPackage);
+//        printPackageFooter(jPackage);
     }
 
-    protected void printAbstractClasses(JavaPackage jPackage) {
+    private String printPackageNames(JavaPackage jPackage) {
+    	return jPackage.getName();
+		
+	}
+
+	private int printInstabilityRating(JavaPackage jPackage) {
+		return (int) jPackage.instability();
+		
+	}
+
+	private int printNumberofClasses(JavaPackage jPackage) {
+		return jPackage.getClassCount();
+		
+	}
+/**
+	protected void printAbstractClasses(JavaPackage jPackage) {
         printAbstractClassesHeader();
 
         ArrayList members = new ArrayList(jPackage.getClasses());
@@ -294,7 +313,7 @@ public class JDepend {
     protected void printPackagesFooter() {
         // do nothing
     }
-
+**/
     protected void printNoStats() {
         getWriter().println(
                 "No stats available: package referenced, but not analyzed.");
@@ -316,7 +335,7 @@ public class JDepend {
         getWriter().println("\nStats:");
         getWriter().println(
                 tab() + "Total Classes: " + jPackage.getClassCount());
-        getWriter()
+/**        getWriter()
                 .println(
                         tab() + "Concrete Classes: "
                                 + jPackage.getConcreteClassCount());
@@ -330,10 +349,10 @@ public class JDepend {
         getWriter().println("");
         getWriter().println(
                 tab() + "A: " + toFormattedString(jPackage.abstractness()));
-        getWriter().println(
+**/       getWriter().println(
                 tab() + "I: " + toFormattedString(jPackage.instability()));
-        getWriter().println(
-                tab() + "D: " + toFormattedString(jPackage.distance()));
+ //       getWriter().println(
+//                tab() + "D: " + toFormattedString(jPackage.distance()));
     }
 
     protected void printClassName(JavaClass jClass) {
@@ -491,7 +510,7 @@ public class JDepend {
         return analyze();
     }
 
-    public static void main(String args[]) {
-        //new JDepend().instanceMain(args);
+    public static ArrayList main(String args) {
+        return new JDepend().instanceMain(args);
     }
 }

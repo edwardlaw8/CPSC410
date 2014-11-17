@@ -18,6 +18,9 @@ import jdepend.framework.JavaPackage;
  */
 
 public class JDepend extends jdepend.textui.JDepend {
+	String[] packageNames = new String[20];
+	int[] numberofClasses = new int[20];
+	int[] instabilityratings = new int[20];
 
     /**
      * Constructs a <code>JDepend</code> instance using standard output.
@@ -37,7 +40,7 @@ public class JDepend extends jdepend.textui.JDepend {
         formatter = NumberFormat.getInstance(Locale.ENGLISH);
         formatter.setMaximumFractionDigits(2);
     }
-
+/**
     protected void printHeader() {
         getWriter().println("<?xml version=\"1.0\"?>");
         getWriter().println("<JDepend>");
@@ -54,28 +57,35 @@ public class JDepend extends jdepend.textui.JDepend {
     protected void printPackagesFooter() {
         getWriter().println(tab() + "</Packages>");
     }
-
+ **/
     protected void printPackageHeader(JavaPackage jPackage) {
-        printSectionBreak();
+   //     printSectionBreak();
         getWriter().println(
                 tab(2) + "<Package name=\"" + jPackage.getName() + "\">");
+        packageNames[0] = jPackage.getName();
+        
+    }
+    public String[] getPackageNames (JavaPackage jPackage) {
+    	return packageNames;
     }
 
     protected void printPackageFooter(JavaPackage jPackage) {
         getWriter().println(tab(2) + "</Package>");
     }
-
+/**
     protected void printNoStats() {
         getWriter().println(
                 tab(3) + "<error>No stats available: "
                         + "package referenced, but not analyzed.</error>");
     }
-
+**/
     protected void printStatistics(JavaPackage jPackage) {
         getWriter().println(tab(3) + "<Stats>");
         getWriter().println(
                 tab(4) + "<TotalClasses>" + jPackage.getClassCount()
                         + "</TotalClasses>");
+        numberofClasses[0] = jPackage.getClassCount();
+        /**
         getWriter().println(
                 tab(4) + "<ConcreteClasses>" + jPackage.getConcreteClassCount()
                         + "</ConcreteClasses>");
@@ -89,14 +99,27 @@ public class JDepend extends jdepend.textui.JDepend {
         getWriter().println(
                 tab(4) + "<A>" + toFormattedString(jPackage.abstractness())
                         + "</A>");
+        **/
         getWriter().println(
                 tab(4) + "<I>" + toFormattedString(jPackage.instability())
                         + "</I>");
+        instabilityratings[0] = (int)jPackage.instability();
+    }
+    
+    public int[] getNumberofClasses (JavaPackage jPackage) {
+    	return numberofClasses;
+    }
+    
+    public int[] getInstability (JavaPackage jPackage) {
+    	return instabilityratings;
+    }
+        /**
         getWriter().println(
                 tab(4) + "<D>" + toFormattedString(jPackage.distance())
                         + "</D>");
         getWriter().println(tab(4) + "<V>" + jPackage.getVolatility() + "</V>");
         getWriter().println(tab(3) + "</Stats>");
+        
     }
 
     protected void printClassName(JavaClass jClass) {
@@ -183,7 +206,7 @@ public class JDepend extends jdepend.textui.JDepend {
     protected void printSummary(Collection packages) {
         // do nothing
     }
-
+**/
     /**
      * Main.
      */

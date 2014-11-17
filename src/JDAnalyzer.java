@@ -1,14 +1,10 @@
 import java.util.ArrayList;
-
-import jdepend.xmlui.JDepend;
+import jdepend.textui.JDepend;
 
 
 public class JDAnalyzer extends Analyzer {
 	
 	ArrayList JDependOutput;
-	ArrayList output;
-	JDParser parser;
-	CustomJDependArray realOutput;
 
 	public JDAnalyzer(String src) {
 		super(src);
@@ -16,15 +12,14 @@ public class JDAnalyzer extends Analyzer {
 
 	public ArrayList analyzeThis() {
 		
-		JDepend jd = new JDepend();
+	//	JDepend jd = new JDepend();
 		String args = "C:\\Users\\EdNKuma\\Desktop\\jdepend-2.9.1\\build";
 		
 		//TODO: Need way to grab package names and classes in each package
-		JDependOutput = jd.jdAnaylze(args);
-		realOutput = parser.JDParser(JDependOutput);
-		output.add(realOutput);
+		JDependOutput = JDepend.main(args);
 		
-		return output;
+		
+		return JDependOutput;
 		
 	}
 

@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.ArrayList;
-
 import com.google.gson.JsonObject;
 
 public class Runner {
@@ -8,9 +7,14 @@ public class Runner {
 		
 		String pmd_loc = "C:\\Users\\EdNKuma\\Desktop\\pmd-bin-5.2.0\\bin\\pmd";
 		String pattern = "violation";
-		String src = "C:\\Users\\EdNKuma\\Documents\\GitHub\\Sponge\\src";
+		String src = "/Users/risanewyear-ramirez/git/CPSC410/Sponge(CPSC410CodeBase1)";
+		String src2 = "/Users/risanewyear-ramirez/git/CPSC410/twoway-view(CPSC410CodeBase2)";
+		String dir = System.getProperty("user.dir");
 		Runtime rt = Runtime.getRuntime();
 		
+		
+		
+		System.out.println("Which Codebase Would You Like to Analyze?");
 		PMDAnalyzer pmdAnalyzer = new PMDAnalyzer(pmd_loc, pattern, src);
 		int violations = pmdAnalyzer.analyzeThis();
 		
