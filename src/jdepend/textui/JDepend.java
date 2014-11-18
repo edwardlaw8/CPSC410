@@ -136,6 +136,7 @@ public class JDepend {
  //       printPackagesHeader();
         Iterator i = packages.iterator();
         while (i.hasNext()) {
+        	System.out.println(packages.size());
         	for (Object n : PNClassesInstability) {
    //         printPackage((JavaPackage) i.next());
             PNCI.setAt0(((JavaPackage) i).getName());

@@ -21,6 +21,7 @@ public class PMDAnalyzer extends Analyzer {
 	
 	public int analyzeThis() {
 		int violations = 0;
+		getAllPackageLoc();
 		try{	
 			
 			Process p = Runtime.getRuntime().exec("cmd /c " + pmd_loc +  " -d " + src + " -f xml -R rulesets/java/basic.xml");
@@ -49,5 +50,8 @@ public class PMDAnalyzer extends Analyzer {
 		
 		return violations;
 	}
-
+	
+	public void getAllPackageLoc(){
+	
+	}
 }
