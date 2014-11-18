@@ -31,7 +31,7 @@ public class Fuser {
 	public void ViolationsAndPackages(int violations, ArrayList packageList) {
 		gson = new Gson();
 		try {
-			file = new File("/Users/risanewyear-ramirez/git/CPSC410/visualization/ViolationsAndPackages.json");
+			file = new File("E:/UBC/cs410/CPSC410/visualization/ViolationsAndPackages.json");
 			fw = new FileWriter(file);
 			// if file doesnt exists, then create it
 					if (!file.exists()) {
@@ -63,7 +63,7 @@ public class Fuser {
 	public void PackagesAndClasses(ArrayList packageList) {
 		gson = new Gson();
 		try {
-			file2 = new File("/Users/risanewyear-ramirez/git/CPSC410/visualization/PackagesAndClasses.json");
+			file2 = new File("E:/UBC/cs410/CPSC410/visualization/PackagesAndClasses.json");
 			fw = new FileWriter(file2);
 			// if file doesnt exists, then create it
 					if (!file.exists()) {

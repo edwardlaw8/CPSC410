@@ -37,6 +37,7 @@ public class PMDAnalyzer extends Analyzer {
 				System.out.println(nodeList.item(i).getTextContent());
 			}
 			
+			
 		} catch (IOException e){
 			e.printStackTrace();
 		} catch (SAXException e) {

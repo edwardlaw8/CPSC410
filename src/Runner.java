@@ -9,10 +9,10 @@ import com.google.gson.JsonObject;
 public class Runner {
 	public static void main(String[] args){
 		
-		String pmd_loc = "/Users/risanewyear-ramirez/git/CPSC410/src/pmd-java";
+		String pmd_loc = "E:\\UBC\\cs410\\CPSC410\\pmd\\bin\\pmd";
 		String pattern = "violation";
-		String src = "/Users/risanewyear-ramirez/git/CPSC410/Sponge(CPSC410CodeBase1)";
-		String src2 = "/Users/risanewyear-ramirez/git/CPSC410/twoway-view(CPSC410CodeBase2)";
+		String src = "E:/UBC/cs410/CPSC410/Sponge(CPSC410CodeBase1)";
+		String src2 = "E:/UBC/cs410/CPSC410/twoway-view(CPSC410CodeBase2)";
 	//	String dir = System.getProperty("user.dir");
 		Runtime rt = Runtime.getRuntime();
 		Scanner s = new Scanner(System.in);
