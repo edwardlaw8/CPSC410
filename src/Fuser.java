@@ -1,9 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.xml.crypto.dsig.XMLObject;
-
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 
@@ -11,19 +11,31 @@ public class Fuser {
 	
 	ArrayList ViolationsAndPackages = null;
 	ArrayList PackagesAndClasses = null;
-	JsonObject JSONViolationsAndPackages;
-	JsonObject JSONPackagesAndClasses;
 	JsonParser parser;
 	Gson gson;
+	File file;
+	File file2;
+	FileWriter fw = null;
 	
 	public Fuser(int violations, ArrayList packageList) {
 		ViolationsAndPackages(violations, packageList);
 		PackagesAndClasses(packageList);
 	}
 	
-	public JsonObject ViolationsAndPackages(int violations, ArrayList packageList) {
+	public void ViolationsAndPackages(int violations, ArrayList packageList) {
 		gson = new Gson();
-		parser = new JsonParser();
+		try {
+			file = new File("/Users/risanewyear-ramirez/git/CPSC410/visualization/ViolationsAndPackages.json");
+			fw = new FileWriter(file);
+			// if file doesnt exists, then create it
+					if (!file.exists()) {
+						file.createNewFile();
+						}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		for (int i= 0; i < packageList.size(); i++){
 			//Need to get package names and number of violations related to that package
@@ -33,15 +45,28 @@ public class Fuser {
 			ViolationsAndPackages.add(violations, packageList.get(i));
 			}
 			
-			JSONViolationsAndPackages = (JsonObject)parser.parse(gson.toJson(ViolationsAndPackages));
-		
-			//convert ArrayList to JSONArray, then to JSON object to pass to Visualizer
-			return JSONViolationsAndPackages;
+			try {
+				fw.write(gson.toJson(ViolationsAndPackages));
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	
-	public JsonObject PackagesAndClasses(ArrayList packageList) {
+	public void PackagesAndClasses(ArrayList packageList) {
 		gson = new Gson();
-		parser = new JsonParser();
+		try {
+			file2 = new File("/Users/risanewyear-ramirez/git/CPSC410/visualization/PackagesAndClasses.json");
+			fw = new FileWriter(file2);
+			// if file doesnt exists, then create it
+					if (!file.exists()) {
+						file.createNewFile();
+						}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		for (int i= 0; i < packageList.size(); i++){
 			//Need to get package names and classes in that package
@@ -52,10 +77,12 @@ public class Fuser {
 			
 			}
 			
-			JSONPackagesAndClasses = (JsonObject)parser.parse(gson.toJson(PackagesAndClasses));
-		
-			//convert ArrayList to JSONArray, then to JSON object to pass to Visualizer
-			return JSONPackagesAndClasses;
+		try {
+			fw.write(gson.toJson(PackagesAndClasses));
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		}
 	}
 

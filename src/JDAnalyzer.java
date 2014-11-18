@@ -13,7 +13,7 @@ public class JDAnalyzer extends Analyzer {
 	public ArrayList analyzeThis() {
 		
 	//	JDepend jd = new JDepend();
-		String args = "C:\\Users\\EdNKuma\\Desktop\\jdepend-2.9.1\\build";
+		String args = "/Users/risanewyear-ramirez/git/CPSC410/build/jdepend";
 		
 		//TODO: Need way to grab package names and classes in each package
 		JDependOutput = JDepend.main(args);
