@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3</title>
+        <script type="text/javascript" src="d3/d3.js"></script>
+        <script type="text/javascript" src="javascript/jquery-2.1.1.js"></script>
+        <style>
+                  
+        </style>
+    </head>
+    <body>
+        
+        <script type="text/javascript">
+          
+          var width = Math.max(960, innerWidth),
+              height = Math.max(500, innerHeight);
+
+          var x1 = width / 2,
+              y1 = height / 2,
+              x0 = x1,
+              y0 = y1,
+              i = 0,
+              r = 200,
+              τ = 2 * Math.PI;
+
+          var canvas = d3.select("body").append("canvas")
+              .attr("width", width)
+              .attr("height", height);
+              //.on("click", move);
+
+          var context = canvas.node().getContext("2d");
+          context.globalCompositeOperation = "lighter";
+          context.lineWidth = 1;
+
+          var pre_time = 0;
+          var index = 0;
+
+          //Calculate points to be evenly distributed across a circle
+          var num = 2;
+          var x_set = [];
+          var y_set = [];
+          var angle = (2 * Math.PI)/num;
+          for(var a = 0; a<(2*Math.PI); a+=angle){
+              x_set.push(x1 + Math.cos(a) * 250);
+              y_set.push(y1 + Math.sin(a) * 250);
+          }
+
+          d3.timer(function() {
+              context.clearRect(0, 0, width, height);
+
+              //Starts here
+              var cur_time = new Date().getTime() ;
+
+              x1 = x_set[index];
+              y1 = y_set[index];
+
+              var z = d3.hsl(++i % 360, 1, .5).rgb(),
+                  c = "rgba(" + z.r + "," + z.g + "," + z.b + ",",
+                  x = x0 += (x1 - x0) * .1,
+                  y = y0 += (y1 - y0) * .1;
+
+              if((cur_time - pre_time) >= 500) {
+                  pre_time = cur_time;
+                  index++;
+                  if(index == num) {
+                      index = 0;
+                  }
+              }
+              
+              //End here
+              d3.select({}).transition()
+                  .duration(2500)
+                  .ease(Math.sqrt)
+                  .tween("text", function() {
+                    return function(t) {
+                      context.strokeStyle = c + (1 - t) + ")";
+                      context.beginPath();
+                      context.arc(x, y, r * t, 0, τ);
+                      context.stroke();
+                    };
+                  });
+          });
+
+
+          /*function move() {
+              var x_set = [400, 750, 500];
+              var y_set = [200, 200, 500];
+
+              x1 = x_set[index];
+              y1 = y_set[index];
+
+              index++;
+              if(index == 3) {
+                index = 0;
+              }
+              d3.event.preventDefault();
+          }*/
+
+        </script>
+    </body>
+</html> 
