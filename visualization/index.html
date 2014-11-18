@@ -66,9 +66,9 @@
             //nodesC = d3.range(10).map(function() { return {radius: 17}; });
 
         var color = d3.scale.category20(),
-            colorb = d3.scale.category10();
+            colorb = d3.scale.category20b();
 
-        var packageGravity = 0.03;
+        var packageGravity = 0.02;
 
         var forceP = d3.layout.force()
             .gravity(packageGravity)
@@ -126,7 +126,7 @@
             obj_nodesC[i] = nodesC;
 
             obj_forceC[i] = d3.layout.force()
-              .gravity(0.05) //0.04
+              .gravity(0.066) //0.035 ~ 0.085
               .nodes(nodesC)
               .size([packageXY[i].x, packageXY[i].y]);
 
@@ -264,7 +264,7 @@
               .attr("cy", y)
               .attr("r", 10)
               .style("stroke", i) 
-              .style("stroke-opacity", 0.5)
+              .style("stroke-opacity", 0.7)
             .transition()
               .duration(2500)
               .ease(Math.sqrt)
