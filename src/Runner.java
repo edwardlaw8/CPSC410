@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.javatuples.Triplet;
+
 import com.google.gson.JsonObject;
 
 public class Runner {
@@ -17,7 +19,7 @@ public class Runner {
 		String userinput;
 	
 		System.out.println("Which Codebase Would You Like to Analyze? Sponge or Twoway-view?");
-		userinput = s.nextLine();
+		userinput = s.next();
 		if (userinput.equalsIgnoreCase("Sponge")) {
 			PMDAnalyzer pmdAnalyzer = new PMDAnalyzer(pmd_loc, pattern, src);
 			int violations = pmdAnalyzer.analyzeThis();

@@ -1,13 +1,15 @@
 package jdepend.textui;
-
 import java.io.*;
 import java.util.*;
 import java.text.NumberFormat;
+
+import org.javatuples.Triplet;
 
 import jdepend.framework.JavaClass;
 import jdepend.framework.JavaPackage;
 import jdepend.framework.PackageComparator;
 import jdepend.framework.PackageFilter;
+
 
 /**
  * The <code>JDepend</code> class analyzes directories of Java class files,
@@ -25,6 +27,9 @@ public class JDepend {
     private PrintWriter writer;
 
     protected NumberFormat formatter;
+    
+    Triplet<String, Integer, Integer> PNCI;
+    ArrayList PNClassesInstability;
 
     /**
      * Constructs a <code>JDepend</code> instance using standard output.
@@ -101,7 +106,8 @@ public class JDepend {
      * Analyzes the registered directories, generates metrics for each Java
      * package, and reports the metrics.
      */
-    public ArrayList analyze() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public ArrayList analyze() {
 
 //        printHeader();
 
@@ -111,8 +117,7 @@ public class JDepend {
 
         Collections.sort(packageList, new PackageComparator(PackageComparator
                 .byName()));
-        
-
+      
         printPackages(packageList);
 
 //       printCycles(packageList);
@@ -123,15 +128,21 @@ public class JDepend {
 
 //        getWriter().flush();
         
-        return packageList;
+        return PNClassesInstability;
     }
 
-    protected void printPackages(Collection packages) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	protected void printPackages(Collection packages) {
  //       printPackagesHeader();
-
         Iterator i = packages.iterator();
         while (i.hasNext()) {
-            printPackage((JavaPackage) i.next());
+        	for (Object n : PNClassesInstability) {
+   //         printPackage((JavaPackage) i.next());
+            PNCI.setAt0(((JavaPackage) i).getName());
+    		PNCI.setAt1(((JavaPackage) i).getName());
+            PNCI.setAt2(((JavaPackage) i).getName());
+        	}
+        	PNClassesInstability.add(PNCI);
         }
 
 //        printPackagesFooter();
@@ -148,9 +159,9 @@ public class JDepend {
         }
 
  //       printStatistics(jPackage);
-        printNumberofClasses(jPackage);
-        printInstabilityRating(jPackage);
-        printPackageNames(jPackage);
+     printNumberofClasses(jPackage);
+     printInstabilityRating(jPackage);
+     printPackageNames(jPackage);
 
 //        printSectionBreak();
 

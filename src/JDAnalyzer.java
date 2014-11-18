@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+
+import org.javatuples.Triplet;
+
 import jdepend.textui.JDepend;
 
 

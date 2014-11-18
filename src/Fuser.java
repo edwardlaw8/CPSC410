@@ -3,13 +3,18 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.javatuples.Triplet;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
 
 public class Fuser {
 	
+	@SuppressWarnings("rawtypes")
 	ArrayList ViolationsAndPackages = null;
+	@SuppressWarnings("rawtypes")
 	ArrayList PackagesAndClasses = null;
 	JsonParser parser;
 	Gson gson;
@@ -22,6 +27,7 @@ public class Fuser {
 		PackagesAndClasses(packageList);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void ViolationsAndPackages(int violations, ArrayList packageList) {
 		gson = new Gson();
 		try {
@@ -51,7 +57,7 @@ public class Fuser {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+	}
 	
 	public void PackagesAndClasses(ArrayList packageList) {
 		gson = new Gson();
