@@ -21,6 +21,7 @@ public class Fuser {
 	File file;
 	File file2;
 	FileWriter fw = null;
+	String dir = System.getProperty("user.dir");
 	
 	public Fuser(int violations, ArrayList packageList) {
 		ViolationsAndPackages(violations, packageList);
@@ -30,8 +31,9 @@ public class Fuser {
 	@SuppressWarnings("unchecked")
 	public void ViolationsAndPackages(int violations, ArrayList packageList) {
 		gson = new Gson();
+		System.out.println("DDDDDDDDDDDir : " + dir);
 		try {
-			file = new File("E:/UBC/cs410/CPSC410/visualization/ViolationsAndPackages.json");
+			file = new File(dir + "/visualization/ViolationsAndPackages.json");
 			fw = new FileWriter(file);
 			// if file doesnt exists, then create it
 					if (!file.exists()) {
@@ -63,7 +65,7 @@ public class Fuser {
 	public void PackagesAndClasses(ArrayList packageList) {
 		gson = new Gson();
 		try {
-			file2 = new File("E:/UBC/cs410/CPSC410/visualization/PackagesAndClasses.json");
+			file2 = new File(dir + "/visualization/PackagesAndClasses.json");
 			fw = new FileWriter(file2);
 			// if file doesnt exists, then create it
 					if (!file.exists()) {

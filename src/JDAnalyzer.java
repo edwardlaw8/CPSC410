@@ -16,7 +16,8 @@ public class JDAnalyzer extends Analyzer {
 	public ArrayList analyzeThis() {
 		
 	//	JDepend jd = new JDepend();
-		String args = "E:/UBC/cs410/CPSC410/build/jdepend";
+		String dir = System.getProperty("user.dir");
+		String args = dir + "/build/jdepend";
 		
 		//TODO: Need way to grab package names and classes in each package
 		JDependOutput = JDepend.main(args);

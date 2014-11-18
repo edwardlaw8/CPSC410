@@ -9,11 +9,14 @@ import com.google.gson.JsonObject;
 public class Runner {
 	public static void main(String[] args){
 		
-		String pmd_loc = "E:\\UBC\\cs410\\CPSC410\\pmd\\bin\\pmd";
+		
+		String dir = System.getProperty("user.dir");
+		String pmd_loc = dir + "/pmd/bin/pmd";
 		String pattern = "violation";
-		String src = "E:/UBC/cs410/CPSC410/Sponge(CPSC410CodeBase1)";
-		String src2 = "E:/UBC/cs410/CPSC410/twoway-view(CPSC410CodeBase2)";
-	//	String dir = System.getProperty("user.dir");
+		String src = dir + "/Sponge(CPSC410CodeBase1)";
+		String src2 = dir + "/twoway-view(CPSC410CodeBase2)";
+       
+        System.out.println("user.dir is : " + dir);
 		Runtime rt = Runtime.getRuntime();
 		Scanner s = new Scanner(System.in);
 		String userinput;
