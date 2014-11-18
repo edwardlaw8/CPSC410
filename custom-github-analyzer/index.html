@@ -13,19 +13,20 @@
         <canvas id="myCanvas"></canvas>
         <script type="text/javascript">
             
-            var commitAPI = "https://api.github.com/repos/SpongePowered/Sponge/commits";
+            //var commitAPI = "https://api.github.com/repos/SpongePowered/Sponge/commits";
+            var commitAPI = "https://api.github.com/repos/cloudera/oryx/commits";
             var commitSequence = [];
             var classCreationSequence = [];
             var classCreationMap = []; //for hashing only
             
-            for( var i=1; i<=3; i++){
+            for( var i=1; i<=10; i++){
               (function(i) {                      //Closure for the for loop
                 $.ajax({
                   url: commitAPI + "?page=" + i,  //Github return json 1MB max per request
                   type: 'GET',
                   dataType: 'json',
                   async: false,                   //Request page in the order we want                 
-                  success: function() { window.alert( "xxxxxXXXXX success  at page:" + i + " XXXXXxxxxx"); },
+                  success: function() { console.log( "xxxxxXXXXX success at page:" + i + " XXXXXxxxxx"); },
                   error: function() { alert( "fail at page:" + i ); },
                   beforeSend: setHeader
                  })
@@ -33,9 +34,9 @@
                     if(!jQuery.isEmptyObject(data)){
                       $.each( data, function( j, item ) {
                         commitSequence.push({"sha": data[j].sha,
-                                             "name": data[j].author.login,
+                                             //"name": data[j].author.login,
                                              "time": data[j].commit.committer.date});
-                        console.log(data[j].author.login + 1); 
+                        //console.log(data[j].author.login + 1); 
                       });
                     } 
                   });
@@ -50,7 +51,9 @@
             console.log("xxxxxXXXXX Total Commits:" + commitSequence.length + " XXXXXxxxxxxx");
             
             for(var i = 0; i < commitSequence.length; i++) {
-              (function(i) {                
+              
+              (function(i) { 
+                  console.log(i+ " - Checking commit: " + commitSequence[i].sha);
                   $.ajax({
                     url: commitAPI + "/" + commitSequence[i].sha,  
                     type: 'GET',
@@ -62,24 +65,27 @@
                    })
                     .done(function( data ) {                    //Extract class name
                       $.each(data.files, function(j, file) {    //Access the files name of the commit
-                        if(file.filename.indexOf(".java") > -1) { //Check if the file change is a java file
+                        if(!(typeof file.patch === 'undefined')){
+                          
+                          if(file.filename.indexOf(".java") > -1) { //Check if the file change is a java file
 
-                          if(file.patch.indexOf(" class ") > -1 ) {//Check if the change involve creating/deleting class
-                            var class_name_start_index = file.patch.indexOf(" class ") + 7;
-                            
-                            if(file.patch[class_name_start_index].toUpperCase() == file.patch[class_name_start_index]) { //Class usually start with capital letter
-                              var class_name_ending_index = class_name_start_index;
-                              while(file.patch[class_name_ending_index] != " "){  
-                                class_name_ending_index++;
-                              }
-                              var classname = file.patch.substring(class_name_start_index, class_name_ending_index);
+                            if(file.patch.indexOf(" class ") > -1 ) {//Check if the change involve creating/deleting class
+                              var class_name_start_index = file.patch.indexOf(" class ") + 7;
 
-                              if(jQuery.inArray(classname, classCreationMap) == -1 ) {
-                                console.log(classname);
-                                console.log(data.commit.author.date);
-                                classCreationMap.push(classname);
-                                classCreationSequence.push({"classname": classname,
-                                                            "create-date": data.commit.author.date});
+                              if(file.patch[class_name_start_index].toUpperCase() == file.patch[class_name_start_index]) { //Class usually start with capital letter
+                                var class_name_ending_index = class_name_start_index;
+                                while(file.patch[class_name_ending_index] != " "){  
+                                  class_name_ending_index++;
+                                }
+                                var classname = file.patch.substring(class_name_start_index, class_name_ending_index);
+
+                                if(jQuery.inArray(classname, classCreationMap) == -1 ) {
+                                  console.log(classname);
+                                  console.log(data.commit.author.date);
+                                  classCreationMap.push(classname);
+                                  classCreationSequence.push({"classname": classname,
+                                                              "create-date": data.commit.author.date});
+                                }
                               }
                             }
                           }
