@@ -13,9 +13,9 @@ import com.google.gson.JsonParser;
 public class Fuser {
 	
 	@SuppressWarnings("rawtypes")
-	ArrayList ViolationsAndPackages = null;
+	ArrayList ViolationsAndPackages;
 	@SuppressWarnings("rawtypes")
-	ArrayList PackagesAndClasses = null;
+	ArrayList PackagesAndClasses;
 	JsonParser parser;
 	Gson gson;
 	File file;
@@ -59,6 +59,7 @@ public class Fuser {
 			}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void PackagesAndClasses(ArrayList packageList) {
 		gson = new Gson();
 		try {
