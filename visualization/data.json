@@ -1,1 +1,18 @@
-data = '[{"name" : "Harry", "age" : "32"}, {"name" : "Harry", "age" : "32"}]';
+{
+	"class":[
+	{
+		"name": "SpongeGame",
+		"order": 1,
+		"package": "package1"
+	}, 
+	{
+		"name": "SpongeMod",
+		"order": 2,
+		"package": "package1"
+	}, 
+	{
+		"name": "SpongeMod",
+		"order": 3,
+		"package": "package1"
+	}
+]}
