@@ -12,9 +12,9 @@
     <body>
         <canvas id="myCanvas"></canvas>
         <script type="text/javascript">
-            
-            //var commitAPI = "https://api.github.com/repos/SpongePowered/Sponge/commits";
-            var commitAPI = "https://api.github.com/repos/cloudera/oryx/commits";
+          
+            var commitAPI = "https://api.github.com/repos/perwendel/spark/commits";
+            //var commitAPI = "https://api.github.com/repos/cloudera/oryx/commits";
             var commitSequence = [];
             var classCreationSequence = [];
             var classCreationMap = []; //for hashing only
@@ -74,7 +74,7 @@
 
                               if(file.patch[class_name_start_index].toUpperCase() == file.patch[class_name_start_index]) { //Class usually start with capital letter
                                 var class_name_ending_index = class_name_start_index;
-                                while(file.patch[class_name_ending_index] != " "){  
+                                while(!(file.patch[class_name_ending_index] == " " || file.patch[class_name_ending_index] == "/\/" || file.patch[class_name_ending_index] == "+") ){  
                                   class_name_ending_index++;
                                 }
                                 var classname = file.patch.substring(class_name_start_index, class_name_ending_index);
