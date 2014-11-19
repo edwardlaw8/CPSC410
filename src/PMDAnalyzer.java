@@ -33,10 +33,10 @@ public class PMDAnalyzer extends Analyzer {
 			violations = nodeList.getLength();
 			
 			System.out.println("\nNumber of " + pattern + " : " + nodeList.getLength());
-			
+			/*
 			for(int i = 0; i < nodeList.getLength(); i++){
 				System.out.println(nodeList.item(i).getTextContent());
-			}
+			}*/
 			
 			
 		} catch (IOException e){
