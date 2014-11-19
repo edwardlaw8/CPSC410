@@ -13,9 +13,9 @@ public class Runner {
 		String dir = System.getProperty("user.dir");
 		String pmd_loc = dir + "/pmd/bin";
 		String pattern = "violation";
-		String src = dir + "/Sponge(CPSC410CodeBase1)";
-		String src3 = dir + "/spark-master(CPSC410CodeBase3)";
+		String src1 = dir + "/Sponge(CPSC410CodeBase1)";
 		String src2 = dir + "/twoway-view(CPSC410CodeBase2)";
+		String src3 = dir + "/spark(CPSC410CodeBase3)";
        
 		Runtime rt = Runtime.getRuntime();
 		Scanner s = new Scanner(System.in);
@@ -30,12 +30,13 @@ public class Runner {
 			System.out.println("You entered: " + userinput );
 		}while(userinput!= 1 && userinput!= 2 );
 		if (userinput == 1) {
-			PMDAnalyzer pmdAnalyzer = new PMDAnalyzer(pmd_loc, pattern, src3);
+			PMDAnalyzer pmdAnalyzer = new PMDAnalyzer(pmd_loc, pattern, src1);
 			int violations = pmdAnalyzer.analyzeThis();
 			
-			JDAnalyzer jdAnalyzer = new JDAnalyzer(src);
+			JDAnalyzer jdAnalyzer = new JDAnalyzer(src1);
 			ArrayList packageList = jdAnalyzer.analyzeThis();
-			Fuser fuser = new Fuser(violations, packageList);
+			System.out.print("[Runner]: packageList size " + packageList.size());
+			Fuser fuser = new Fuser(16, packageList);
 		}
 		
 		if (userinput == 2) {

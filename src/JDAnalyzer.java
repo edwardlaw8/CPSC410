@@ -17,10 +17,10 @@ public class JDAnalyzer extends Analyzer {
 		
 	//	JDepend jd = new JDepend();
 		String dir = System.getProperty("user.dir");
-		String args = dir + "/build/jdepend";
+		//String args = dir + this.src;
 		
 		//TODO: Need way to grab package names and classes in each package
-		JDependOutput = JDepend.main(args);
+		JDependOutput = JDepend.main(this.src);
 		
 		
 		return JDependOutput;
