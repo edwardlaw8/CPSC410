@@ -47,7 +47,7 @@ public class Fuser {
 			//Need to get package names and number of violations related to that package
 			//and put them in a list together
 			
-			//Store Package to Number of Violations
+			//Store only Package Name to Number of Violations
 			ViolationsAndPackages.add(violations, packageList.get(i));
 			}
 			

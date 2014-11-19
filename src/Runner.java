@@ -11,13 +11,12 @@ public class Runner {
 		
 		
 		String dir = System.getProperty("user.dir");
-		String pmd_loc = dir + "/pmd/bin/pmd";
+		String pmd_loc = dir + "/pmd/bin";
 		String pattern = "violation";
 		String src = dir + "/Sponge(CPSC410CodeBase1)";
 		String src3 = dir + "/spark-master(CPSC410CodeBase3)";
 		String src2 = dir + "/twoway-view(CPSC410CodeBase2)";
        
-        //System.out.println("user.dir is : " + dir);
 		Runtime rt = Runtime.getRuntime();
 		Scanner s = new Scanner(System.in);
 		String userinputStr;

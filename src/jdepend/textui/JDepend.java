@@ -161,7 +161,6 @@ public class JDepend {
         
         //Now add Collection as a Triplet of String, int, int
         PNCI = Triplet.fromCollection(analyzeOutput);
-        System.out.println(PNCI);
         
         //Add this Triplet to ArrayList
         PNClassesInstability.add(PNCI);
