@@ -1,13 +1,15 @@
 package jdepend.textui;
-
 import java.io.*;
 import java.util.*;
 import java.text.NumberFormat;
+
+import org.javatuples.Triplet;
 
 import jdepend.framework.JavaClass;
 import jdepend.framework.JavaPackage;
 import jdepend.framework.PackageComparator;
 import jdepend.framework.PackageFilter;
+
 
 /**
  * The <code>JDepend</code> class analyzes directories of Java class files,
@@ -25,12 +27,18 @@ public class JDepend {
     private PrintWriter writer;
 
     protected NumberFormat formatter;
+    
+    Triplet<String, Integer, Integer> PNCI;
+    ArrayList PNClassesInstability;
+    @SuppressWarnings("rawtypes")
+	Collection analyzeOutput;
 
     /**
      * Constructs a <code>JDepend</code> instance using standard output.
      */
     public JDepend() {
         this(new PrintWriter(System.out));
+       PNClassesInstability = new ArrayList();
     }
 
     /**
@@ -101,7 +109,8 @@ public class JDepend {
      * Analyzes the registered directories, generates metrics for each Java
      * package, and reports the metrics.
      */
-    public ArrayList analyze() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public ArrayList analyze() {
 
 //        printHeader();
 
@@ -111,20 +120,8 @@ public class JDepend {
 
         Collections.sort(packageList, new PackageComparator(PackageComparator
                 .byName()));
-        
-        //----------------------------
-        System.out.println("collection size: " + packages.size());
-        System.out.println("arraylist size: " + packageList.size());
-        Iterator i = packages.iterator();
-        for(int j = 0; j < packageList.size(); j++) {
-            JavaPackage jp = (JavaPackage) packageList.get(j);	
-            System.out.println(i + " : " + jp.getName());
-            System.out.println(i + " : " + jp.instability());
-          }
-        
-
-        //----------------------------------
-        //printPackages(packageList);
+      
+        printPackages(packageList);
 
 //       printCycles(packageList);
 
@@ -134,81 +131,40 @@ public class JDepend {
 
 //        getWriter().flush();
         
-        return packageList;
+        return PNClassesInstability;
     }
 
-    protected void printPackages(Collection packages) {
- //       printPackagesHeader();
-
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	protected void printPackages(Collection packages) {
         Iterator i = packages.iterator();
         while (i.hasNext()) {
-            printPackage((JavaPackage) i.next());
+        	printPackage((JavaPackage) i.next());
+        	}
         }
 
-//        printPackagesFooter();
-    }
+    @SuppressWarnings("unchecked")
+	protected void printPackage(JavaPackage jPackage) {
 
-    protected void printPackage(JavaPackage jPackage) {
-
-//        printPackageHeader(jPackage);
-
+    	Triplet<String, Integer, Integer> PNCI = new Triplet<String, Integer, Integer>("hi", 1, 1);
+    	
+    	Collection analyzeOutput = new HashSet();
+    	
         if (jPackage.getClasses().size() == 0) {
             printNoStats();
-//           printPackageFooter(jPackage);
             return;
         }
-
         
-        /*Need to add output to Collection first
+        //Need to add output to Collection first
         analyzeOutput.add(jPackage.getName());
         analyzeOutput.add(jPackage.getClassCount());
         analyzeOutput.add(jPackage.instability());
         
         //Now add Collection as a Triplet of String, int, int
         PNCI = Triplet.fromCollection(analyzeOutput);
-        
         //Add this Triplet to ArrayList
         PNClassesInstability.add(PNCI);
 
-
- //       printStatistics(jPackage);
-        printNumberofClasses(jPackage);
-        printInstabilityRating(jPackage);
-        printPackageNames(jPackage);
-
-//        printSectionBreak();
-
-//        printAbstractClasses(jPackage);
-
-//        printSectionBreak();
-
-//        printConcreteClasses(jPackage);
-
-//        printSectionBreak();
-
-//        printEfferents(jPackage);
-
-//        printSectionBreak();
-
-//        printAfferents(jPackage);
-
-//        printPackageFooter(jPackage);
-    */}
-
-    private String printPackageNames(JavaPackage jPackage) {
-    	return jPackage.getName();
-		
-	}
-
-	private int printInstabilityRating(JavaPackage jPackage) {
-		return (int) jPackage.instability();
-		
-	}
-
-	private int printNumberofClasses(JavaPackage jPackage) {
-		return jPackage.getClassCount();
-		
-	}
+    }
 /**
 	protected void printAbstractClasses(JavaPackage jPackage) {
         printAbstractClassesHeader();

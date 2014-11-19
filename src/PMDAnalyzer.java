@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,6 +14,7 @@ public class PMDAnalyzer extends Analyzer {
 	private String pattern;
 	private String pmd_loc;
 	
+	
 	public PMDAnalyzer(String pmd_loc, String pattern, String src) {
 		super(src);
 		this.pmd_loc = pmd_loc;
@@ -22,28 +24,38 @@ public class PMDAnalyzer extends Analyzer {
 	public int analyzeThis() {
 		int violations = 0;
 		getAllPackageLoc();
-		Process p;
 		try{	
 			if (System.getProperty("os.name").equalsIgnoreCase("Mac OS X")) {
-				p = Runtime.getRuntime().exec("." + pmd_loc + "/run.sh" + " pmd" + " -d " + src + " -f xml -R rulesets/java/basic.xml -version 1.7 -language java");
+				String run = pmd_loc + "/run.sh";
+				Process p = Runtime.getRuntime().exec("bash" + " -f "+"."+ run + " pmd" + " -d " + src + " -f" +  " xml" +  " -R" + " rulesets/java/basic.xml" + " -version" +  " 1.7" +  " -language" +  " java");
+				DocumentBuilderFactory fac1 = DocumentBuilderFactory.newInstance();
+				Document doc1 = (Document) fac1.newDocumentBuilder().parse(p.getInputStream());
+				
+				NodeList nodeList = doc1.getElementsByTagName(pattern);
+				
+				violations = nodeList.getLength();
+				
+				System.out.println("\nNumber of " + pattern + " : " + nodeList.getLength());
+				
+				for(int i = 0; i < nodeList.getLength(); i++){
+					System.out.println(nodeList.item(i).getTextContent());
+				}
 				
 			} else {
-				p = Runtime.getRuntime().exec("cmd /c " + pmd_loc +  " -d " + src + " -f xml -R rulesets/java/basic.xml");
-			}
+			Process f = Runtime.getRuntime().exec("cmd /c " + pmd_loc +  " -d " + src + " -f xml -R rulesets/java/basic.xml");
 			DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
-			Document doc = (Document) fac.newDocumentBuilder().parse(p.getInputStream());
+			Document doc = (Document) fac.newDocumentBuilder().parse(f.getInputStream());
 			
 			NodeList nodeList = doc.getElementsByTagName(pattern);
 			
 			violations = nodeList.getLength();
 			
 			System.out.println("\nNumber of " + pattern + " : " + nodeList.getLength());
-			/*
+			
 			for(int i = 0; i < nodeList.getLength(); i++){
 				System.out.println(nodeList.item(i).getTextContent());
-
-			}*/
-
+			}
+			}
 			
 		} catch (IOException e){
 			e.printStackTrace();

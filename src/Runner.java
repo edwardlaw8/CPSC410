@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,9 +14,13 @@ public class Runner {
 		String dir = System.getProperty("user.dir");
 		String pmd_loc = dir + "/pmd/bin";
 		String pattern = "violation";
-		String src1 = dir + "/Sponge(CPSC410CodeBase1)";
+		String src = dir + "/Sponge(CPSC410CodeBase1)";
+		String src3 = dir + "/spark-master(CPSC410CodeBase3)";
 		String src2 = dir + "/twoway-view(CPSC410CodeBase2)";
-		String src3 = dir + "/spark(CPSC410CodeBase3)";
+		File file = new File(dir + pmd_loc + "/run.sh");
+		file.setWritable(true, false);
+		file.setReadable(true, false);
+		file.setExecutable(true, false);
        
 		Runtime rt = Runtime.getRuntime();
 		Scanner s = new Scanner(System.in);
@@ -30,13 +35,12 @@ public class Runner {
 			System.out.println("You entered: " + userinput );
 		}while(userinput!= 1 && userinput!= 2 );
 		if (userinput == 1) {
-			PMDAnalyzer pmdAnalyzer = new PMDAnalyzer(pmd_loc, pattern, src1);
+			PMDAnalyzer pmdAnalyzer = new PMDAnalyzer(pmd_loc, pattern, src);
 			int violations = pmdAnalyzer.analyzeThis();
 			
-			JDAnalyzer jdAnalyzer = new JDAnalyzer(src1);
+			JDAnalyzer jdAnalyzer = new JDAnalyzer(src);
 			ArrayList packageList = jdAnalyzer.analyzeThis();
-			System.out.print("[Runner]: packageList size " + packageList.size());
-			Fuser fuser = new Fuser(16, packageList);
+			Fuser fuser = new Fuser(violations, packageList);
 		}
 		
 		if (userinput == 2) {
@@ -52,7 +56,6 @@ public class Runner {
 		try {
 			Process visualization = rt.exec("open index.html");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
