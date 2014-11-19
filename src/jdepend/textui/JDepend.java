@@ -158,6 +158,19 @@ public class JDepend {
             return;
         }
 
+        
+        /*Need to add output to Collection first
+        analyzeOutput.add(jPackage.getName());
+        analyzeOutput.add(jPackage.getClassCount());
+        analyzeOutput.add(jPackage.instability());
+        
+        //Now add Collection as a Triplet of String, int, int
+        PNCI = Triplet.fromCollection(analyzeOutput);
+        
+        //Add this Triplet to ArrayList
+        PNClassesInstability.add(PNCI);
+
+
  //       printStatistics(jPackage);
         printNumberofClasses(jPackage);
         printInstabilityRating(jPackage);
@@ -180,7 +193,7 @@ public class JDepend {
 //        printAfferents(jPackage);
 
 //        printPackageFooter(jPackage);
-    }
+    */}
 
     private String printPackageNames(JavaPackage jPackage) {
     	return jPackage.getName();

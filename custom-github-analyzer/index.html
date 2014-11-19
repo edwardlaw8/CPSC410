@@ -16,8 +16,8 @@
             var commitAPI = "https://api.github.com/repos/perwendel/spark/commits";
             //var commitAPI = "https://api.github.com/repos/cloudera/oryx/commits";
             var commitSequence = [];
-            var classCreationSequence = [];
-            var classCreationMap = []; //for hashing only
+            var packageCreationSequence = [];
+            var packageCreationMap = []; //for hashing only
             
             for( var i=1; i<=20; i++){
               (function(i) {                      //Closure for the for loop
@@ -63,27 +63,26 @@
                     //error: function() { alert( "fail" ); },
                     beforeSend: setHeader
                    })
-                    .done(function( data ) {                    //Extract class name
+                    .done(function( data ) {                    //Extract package name
                       $.each(data.files, function(j, file) {    //Access the files name of the commit
                         if(!(typeof file.patch === 'undefined')){
                           
                           if(file.filename.indexOf(".java") > -1) { //Check if the file change is a java file
 
-                            if(file.patch.indexOf(" class ") > -1 ) {//Check if the change involve creating/deleting class
-                              var class_name_start_index = file.patch.indexOf(" class ") + 7;
+                            if(file.patch.indexOf("package ") > -1 ) {//Check if the change involve creating/deleting package
+                              var package_name_start_index = file.patch.indexOf("package ") + 8;
+                              var package_name_ending_index = package_name_start_index;
+                              while(!(file.patch[package_name_ending_index] == ";") ){  
+                                package_name_ending_index++;
+                              }
+                              var packagename = file.patch.substring(package_name_start_index, package_name_ending_index);
 
-                              if(file.patch[class_name_start_index].toUpperCase() == file.patch[class_name_start_index]) { //Class usually start with capital letter
-                                var class_name_ending_index = class_name_start_index;
-                                while(!(file.patch[class_name_ending_index] == " " || file.patch[class_name_ending_index] == "/\/" || file.patch[class_name_ending_index] == "+") ){  
-                                  class_name_ending_index++;
-                                }
-                                var classname = file.patch.substring(class_name_start_index, class_name_ending_index);
-
-                                if(jQuery.inArray(classname, classCreationMap) == -1 ) {
-                                  console.log(classname);
+                              if(jQuery.inArray(packagename, packageCreationMap) == -1 ) {
+                                if(packagename.indexOf(" ") == -1){
+                                  console.log(packagename);
                                   console.log(data.commit.author.date);
-                                  classCreationMap.push(classname);
-                                  classCreationSequence.push({"classname": classname,
+                                  packageCreationMap.push(packagename);
+                                  packageCreationSequence.push({"packagename": packagename,
                                                               "create-date": data.commit.author.date});
                                 }
                               }
@@ -99,10 +98,10 @@
                 })(i);
             }
             
-            var classCreationSequence_xml = json2xml(classCreationSequence, " ");
-            var classCreationSequence_json_text = JSON.stringify(classCreationSequence, null, 2);
-            console.log(classCreationSequence_json_text);
-            var url = 'data:text/json;charset=utf8,' + encodeURIComponent(classCreationSequence_xml);
+            var packageCreationSequence_xml = json2xml(packageCreationSequence, " ");
+            var packageCreationSequence = JSON.stringify(packageCreationSequence, null, 2);
+            console.log(packageCreationSequence);
+            var url = 'data:text/json;charset=utf8,' + encodeURIComponent(packageCreationSequence);
             window.open(url, '_blank');
             window.focus();
           
