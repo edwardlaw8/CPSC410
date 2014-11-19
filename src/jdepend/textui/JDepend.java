@@ -30,12 +30,15 @@ public class JDepend {
     
     Triplet<String, Integer, Integer> PNCI;
     ArrayList PNClassesInstability;
+    @SuppressWarnings("rawtypes")
+	Collection analyzeOutput;
 
     /**
      * Constructs a <code>JDepend</code> instance using standard output.
      */
     public JDepend() {
         this(new PrintWriter(System.out));
+       PNClassesInstability = new ArrayList();
     }
 
     /**
@@ -133,70 +136,37 @@ public class JDepend {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void printPackages(Collection packages) {
- //       printPackagesHeader();
         Iterator i = packages.iterator();
         while (i.hasNext()) {
-        	System.out.println(packages.size());
-        	for (Object n : PNClassesInstability) {
-   //         printPackage((JavaPackage) i.next());
-            PNCI.setAt0(((JavaPackage) i).getName());
-    		PNCI.setAt1(((JavaPackage) i).getName());
-            PNCI.setAt2(((JavaPackage) i).getName());
+        	printPackage((JavaPackage) i.next());
         	}
-        	PNClassesInstability.add(PNCI);
         }
 
-//        printPackagesFooter();
-    }
+    @SuppressWarnings("unchecked")
+	protected void printPackage(JavaPackage jPackage) {
 
-    protected void printPackage(JavaPackage jPackage) {
-
-//        printPackageHeader(jPackage);
-
+    	Triplet<String, Integer, Integer> PNCI = new Triplet<String, Integer, Integer>("hi", 1, 1);
+    	
+    	Collection analyzeOutput = new HashSet();
+    	
         if (jPackage.getClasses().size() == 0) {
             printNoStats();
-//           printPackageFooter(jPackage);
             return;
         }
+        
+        //Need to add output to Collection first
+        analyzeOutput.add(jPackage.getName());
+        analyzeOutput.add(jPackage.getClassCount());
+        analyzeOutput.add(jPackage.instability());
+        
+        //Now add Collection as a Triplet of String, int, int
+        PNCI = Triplet.fromCollection(analyzeOutput);
+        System.out.println(PNCI);
+        
+        //Add this Triplet to ArrayList
+        PNClassesInstability.add(PNCI);
 
- //       printStatistics(jPackage);
-     printNumberofClasses(jPackage);
-     printInstabilityRating(jPackage);
-     printPackageNames(jPackage);
-
-//        printSectionBreak();
-
-//        printAbstractClasses(jPackage);
-
-//        printSectionBreak();
-
-//        printConcreteClasses(jPackage);
-
-//        printSectionBreak();
-
-//        printEfferents(jPackage);
-
-//        printSectionBreak();
-
-//        printAfferents(jPackage);
-
-//        printPackageFooter(jPackage);
     }
-
-    private String printPackageNames(JavaPackage jPackage) {
-    	return jPackage.getName();
-		
-	}
-
-	private int printInstabilityRating(JavaPackage jPackage) {
-		return (int) jPackage.instability();
-		
-	}
-
-	private int printNumberofClasses(JavaPackage jPackage) {
-		return jPackage.getClassCount();
-		
-	}
 /**
 	protected void printAbstractClasses(JavaPackage jPackage) {
         printAbstractClassesHeader();

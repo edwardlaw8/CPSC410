@@ -31,7 +31,6 @@ public class Fuser {
 	@SuppressWarnings("unchecked")
 	public void ViolationsAndPackages(int violations, ArrayList packageList) {
 		gson = new Gson();
-		System.out.println("DDDDDDDDDDDir : " + dir);
 		try {
 			file = new File(dir + "/visualization/ViolationsAndPackages.json");
 			fw = new FileWriter(file);
@@ -44,7 +43,6 @@ public class Fuser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		for (int i= 0; i < packageList.size(); i++){
 			//Need to get package names and number of violations related to that package
 			//and put them in a list together
