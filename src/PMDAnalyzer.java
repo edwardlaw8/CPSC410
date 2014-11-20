@@ -16,7 +16,7 @@ public class PMDAnalyzer extends Analyzer {
 	
 	
 	public PMDAnalyzer(String pmd_loc, String pattern, String src) {
-		super(src);
+		super(src, "");
 		this.pmd_loc = pmd_loc;
 		this.pattern = pattern;
 	}

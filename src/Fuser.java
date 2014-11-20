@@ -4,7 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.javatuples.Triplet;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
@@ -23,73 +25,29 @@ public class Fuser {
 	FileWriter fw = null;
 	String dir = System.getProperty("user.dir");
 	
-	public Fuser(int violations, ArrayList packageList) {
-		ViolationsAndPackages(violations, packageList);
-		PackagesAndClasses(packageList);
+	public Fuser() {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void ViolationsAndPackages(int violations, ArrayList packageList) {
-		gson = new Gson();
+	public void PMD_JD_fuse(int violations, JSONArray packageList) {
+		File jd_output_file;
+		FileWriter fw = null;
+		JSONObject fused_json = new JSONObject();
 		try {
-			file = new File(dir + "/visualization/ViolationsAndPackages.json");
-			fw = new FileWriter(file);
-			// if file doesnt exists, then create it
-					if (!file.exists()) {
-						file.createNewFile();
-						}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		for (int i= 0; i < packageList.size(); i++){
-			//Need to get package names and number of violations related to that package
-			//and put them in a list together
-			
-			//Store only Package Name to Number of Violations
-			ViolationsAndPackages.add(violations, packageList.get(i));
-			}
-			
-			try {
-				fw.write(gson.toJson(ViolationsAndPackages));
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void PackagesAndClasses(ArrayList packageList) {
-		gson = new Gson();
-		try {
-			file2 = new File(dir + "/visualization/PackagesAndClasses.json");
-			fw = new FileWriter(file2);
-			// if file doesnt exists, then create it
-					if (!file.exists()) {
-						file.createNewFile();
-						}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		for (int i= 0; i < packageList.size(); i++){
-			//Need to get package names and classes in that package
-			//and put them in a list together
-			
-			//Store Package to Class
-			PackagesAndClasses.add(packageList.get(i));
-			
-			}
-			
-		try {
-			fw.write(gson.toJson(PackagesAndClasses));
+			fused_json.put("violations", violations);
+			fused_json.put("package_info", packageList);
+			jd_output_file = new File(dir + "/visualization/PMD_JD_fuse.json");
+			fw = new FileWriter(jd_output_file);
+			fw.write(fused_json.toString());
 			fw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} catch (JSONException e) {
+			System.out.println("[PMD_JD_fuse]: JSON!!!");
+			e.printStackTrace();
 		}
 	}
 
+}

@@ -1,15 +1,19 @@
 package jdepend.textui;
+
 import java.io.*;
 import java.util.*;
 import java.text.NumberFormat;
 
-import org.javatuples.Triplet;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import jdepend.framework.JavaClass;
 import jdepend.framework.JavaPackage;
 import jdepend.framework.PackageComparator;
 import jdepend.framework.PackageFilter;
-
 
 /**
  * The <code>JDepend</code> class analyzes directories of Java class files,
@@ -28,17 +32,13 @@ public class JDepend {
 
     protected NumberFormat formatter;
     
-    Triplet<String, Integer, Integer> PNCI;
-    ArrayList PNClassesInstability;
-    @SuppressWarnings("rawtypes")
-	Collection analyzeOutput;
+    protected String repoName;
 
     /**
      * Constructs a <code>JDepend</code> instance using standard output.
      */
     public JDepend() {
         this(new PrintWriter(System.out));
-       PNClassesInstability = new ArrayList();
     }
 
     /**
@@ -109,8 +109,7 @@ public class JDepend {
      * Analyzes the registered directories, generates metrics for each Java
      * package, and reports the metrics.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-	public ArrayList analyze() {
+    public JSONArray analyze() {
 
 //        printHeader();
 
@@ -120,51 +119,109 @@ public class JDepend {
 
         Collections.sort(packageList, new PackageComparator(PackageComparator
                 .byName()));
-      
-        printPackages(packageList);
+        JSONArray returnedJson = new JSONArray();
+        //----------------------------
+        //System.out.println("collection size: " + packages.size());
+        //System.out.println("arraylist size: " + packageList.size());
+        for(int j = 0; j < packageList.size(); j++) {
+        	
+            JavaPackage jp = (JavaPackage) packageList.get(j);
+            //System.out.println("package name : " + jp.getName());
+            String prefix = jp.getName().split("\\.")[0];
+           // System.out.println("package name : " + prefix);
 
-//       printCycles(packageList);
+            if(prefix.equals(this.repoName)){
+                //System.out.println("prefix : " + prefix + " : " + jp.getName());
+                //System.out.println(prefix + " : " + jp.instability());
+                //System.out.println(prefix + " : " + jp.getClassCount());
+                JSONObject aPackageInfo = new JSONObject();
+                try {
+					aPackageInfo.put("package-name", jp.getName());
+	                aPackageInfo.put("number-of-class", jp.getClassCount());
+	                aPackageInfo.put("instability", jp.instability());
+				} catch (JSONException e) {
+					System.out.println("[Jdepend analyze()] JSON!!!");
+					e.printStackTrace();
+				}
 
-//        printSummary(packageList);
-
-//       printFooter();
-
-//        getWriter().flush();
-        
-        return PNClassesInstability;
+                returnedJson.put(aPackageInfo);
+            }
+        }
+        return returnedJson;
     }
+/*
+    protected void printPackages(Collection packages) {
+       printPackagesHeader();
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-	protected void printPackages(Collection packages) {
         Iterator i = packages.iterator();
         while (i.hasNext()) {
-        	printPackage((JavaPackage) i.next());
-        	}
+            printPackage((JavaPackage) i.next());
         }
 
-    @SuppressWarnings("unchecked")
-	protected void printPackage(JavaPackage jPackage) {
+       printPackagesFooter();
+    }
 
-    	Triplet<String, Integer, Integer> PNCI = new Triplet<String, Integer, Integer>("hi", 1, 1);
-    	
-    	Collection analyzeOutput = new HashSet();
-    	
+    protected void printPackage(JavaPackage jPackage) {
+
+      printPackageHeader(jPackage);
+
         if (jPackage.getClasses().size() == 0) {
             printNoStats();
+        printPackageFooter(jPackage);
             return;
         }
+
         
-        //Need to add output to Collection first
+        /*Need to add output to Collection first
         analyzeOutput.add(jPackage.getName());
         analyzeOutput.add(jPackage.getClassCount());
         analyzeOutput.add(jPackage.instability());
         
         //Now add Collection as a Triplet of String, int, int
         PNCI = Triplet.fromCollection(analyzeOutput);
+        
         //Add this Triplet to ArrayList
         PNClassesInstability.add(PNCI);
 
-    }
+
+        printStatistics(jPackage);
+        printNumberofClasses(jPackage);
+        printInstabilityRating(jPackage);
+        printPackageNames(jPackage);
+
+//        printSectionBreak();
+
+//        printAbstractClasses(jPackage);
+
+//        printSectionBreak();
+
+//        printConcreteClasses(jPackage);
+
+//        printSectionBreak();
+
+//        printEfferents(jPackage);
+
+//        printSectionBreak();
+
+//        printAfferents(jPackage);
+
+//        printPackageFooter(jPackage);
+    }*/
+
+    private String printPackageNames(JavaPackage jPackage) {
+    	return jPackage.getName();
+		
+	}
+
+	private int printInstabilityRating(JavaPackage jPackage) {
+		return (int) jPackage.instability();
+		
+	}
+
+	private int printNumberofClasses(JavaPackage jPackage) {
+		return jPackage.getClassCount();
+		
+	}
 /**
 	protected void printAbstractClasses(JavaPackage jPackage) {
         printAbstractClassesHeader();
@@ -474,8 +531,8 @@ public class JDepend {
         System.exit(1);
     }
 
-    protected ArrayList instanceMain(String args) {
-
+    protected JSONArray instanceMain(String args, String repoName) {
+    	this.repoName = repoName;
         int directoryCount = 0;
         try {
                     addDirectory(args);
@@ -490,7 +547,8 @@ public class JDepend {
         return analyze();
     }
 
-    public static ArrayList main(String args) {
-        return new JDepend().instanceMain(args);
+    public static JSONArray main(String args, String repoName) {
+    	
+        return new JDepend().instanceMain(args, repoName);
     }
 }

@@ -11,9 +11,10 @@ import org.xml.sax.SAXException;
 public abstract class Analyzer {
 	
 	protected String src;
-	
-	public Analyzer(String src){
+	protected String repoName;
+	public Analyzer(String src, String repoName){
 		this.src = src;
+		this.repoName = repoName;
 	}
 	
 	
