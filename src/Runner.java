@@ -13,8 +13,8 @@ public class Runner {
 		String pmd_loc = dir + "/pmd/bin/pmd";
 		System.out.println("pmd loc in runner: " + pmd_loc);
 		String pattern = "violation";
-		String src1 = dir + "/Sponge(CPSC410CodeBase1)";
-		String src2 = dir + "/spark(CPSC410CodeBase3)";
+		String src1 = dir + "/musicbrainz(CPSCCodeBase4)";
+		String src2 = dir + "/spark-master(CPSC410CodeBase3)";
 		String repoName1 = "Sponge";
 		String repoName2 = "spark";
 		
@@ -24,7 +24,7 @@ public class Runner {
 		Scanner s = new Scanner(System.in);
 		String userinputStr;
 	
-		System.out.println("Which Codebase Would You Like to Analyze? \nEnter (1) for Sponge \nEnter (2) Twoway-view?");
+		System.out.println("Which Codebase Would You Like to Analyze? \nEnter (1) for Musicbrainz \nEnter (2) Spark-master?");
 		int userinput = -1;
 		do{
 			System.out.print("Please enter a valid response: ");
