@@ -2,8 +2,9 @@ package jdepend.xmlui;
 
 import java.io.*;
 import java.util.*;
-
 import java.text.NumberFormat;
+
+import org.json.JSONArray;
 
 import jdepend.framework.JavaClass;
 import jdepend.framework.JavaPackage;
@@ -210,7 +211,7 @@ public class JDepend extends jdepend.textui.JDepend {
     /**
      * Main.
      */
-    public ArrayList jdAnaylze(String args, String repoName) {
+    public JSONArray jdAnaylze(String args, String repoName) {
         return new JDepend().instanceMain(args, repoName);
     }
 }
