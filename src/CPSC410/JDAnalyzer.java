@@ -1,3 +1,4 @@
+package CPSC410;
 import jdepend.textui.JDepend;
 import org.json.JSONArray;
 
