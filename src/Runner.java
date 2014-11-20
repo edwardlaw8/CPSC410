@@ -65,7 +65,7 @@ public class Runner {
 		
 		//Add output of Fuser (two .jsons) to Visualizer
 		try {
-			visualization = rt.exec("open /visualization/index.html");
+			visualization = rt.exec("cmd /c start " + dir + "/visualization/index.html");
 		} catch (IOException e) {
 			e.printStackTrace();
 		
