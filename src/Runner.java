@@ -15,7 +15,7 @@ public class Runner {
 		String pattern = "violation";
 		String src1 = dir + "/musicbrainz(CPSCCodeBase4)";
 		String src2 = dir + "/spark-master(CPSC410CodeBase3)";
-		String repoName1 = "Sponge";
+		String repoName1 = "musicbrainz";
 		String repoName2 = "spark";
 		
 		String src =  "" , repoName = "";
