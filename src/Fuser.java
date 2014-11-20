@@ -115,8 +115,12 @@ public class Fuser {
 			e.printStackTrace();
 		}
 		
-		return sorted_packages;
+		return sortJSON(sorted_packages);
 		
+	}
+
+	public JSONArray sortJSON(JSONArray sorted_packages) {
+		return sorted_packages;
 	}
 
 }
