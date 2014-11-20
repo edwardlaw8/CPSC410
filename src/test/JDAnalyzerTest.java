@@ -1,4 +1,4 @@
-package unitTest;
+package test;
 
 import org.json.JSONArray;
 
@@ -27,7 +27,6 @@ public class JDAnalyzerTest {
 			return true;
 		}
 		return false;
-		
 	}
 
 }
