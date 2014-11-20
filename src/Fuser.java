@@ -56,7 +56,6 @@ public class Fuser {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private JSONArray creation_date_fuse(JSONArray packageList, String repoName) {
 		
 		FileReader creation_date_file;
@@ -80,6 +79,9 @@ public class Fuser {
 			}
 			
 			String json_string = string_builder.toString();
+			
+			creation_date_file.close();
+			reader.close();
 			
 			JSONTokener json_tokener = new JSONTokener(json_string);
 			creation_date = new JSONArray(json_tokener);
@@ -105,22 +107,15 @@ public class Fuser {
 			}
 			
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return sortJSON(sorted_packages);
-		
-	}
-
-	public JSONArray sortJSON(JSONArray sorted_packages) {
 		return sorted_packages;
+		
 	}
 
 }
