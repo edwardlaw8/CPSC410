@@ -28,248 +28,240 @@
   </style>
   <body style="width:100%;height:100%;margin:0;">
       <script>
-        var packageCreation;
-        $.getJSON("packagesequence.json", function(json) {
-            packageCreation = json;
-        });
+        var packages = [];
+        var packageViolation = 0;
 
-        var packageList = ["package1", "package2","package3", "package4", "package5", "package6", "package7", "package8", "package9"];
-        var classList = [{
-                            "name": "SpongeGame",
-                            "order": 1,
-                            "package": "package1"
-                          }, 
-                          {
-                            "name": "SpongeMod",
-                            "order": 2,
-                            "package": "package1"
-                          }, 
-                          {
-                            "name": "SpongeMod",
-                            "order": 3,
-                            "package": "package1"
-                          }
-                          ];
-        
-        var packageNum = 10;//packageList.length,
-            packageIndex = 0,
-            packageXY = [];
+        $.getJSON("PMD_JD_fuse.json", function(json) {
+            packages = json.package_info;
+            packageViolation = json.violations;
+        }).done(function(){
+          for(z=0; z<packages.length; z++){ //'.'' cannot be used a class name for svg html
+            packages[z].package_name = packages[z].package_name.replace(/\./g, '-');
+            if(packages[z].number_of_class > 15){
+              packages[z].number_of_class =15;
+            }
+          }
+          
+          var packageNum = packages.length;//packageList.length,
+              packageIndex = 0,
+              packageXY = [];
 
-        var width = innerWidth,
-            height = 800;
+          var width = innerWidth,
+              height = 800;
 
-        var svg = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height)
+          var svg = d3.select("body").append("svg")
+              .attr("width", width)
+              .attr("height", height)
 
-        var nodesP = d3.range(packageNum).map(function() { return {radius: 90}; });
-            //nodesC = d3.range(10).map(function() { return {radius: 17}; });
+          var nodesP = d3.range(packageNum).map(function() { return {radius: 90}; });
 
-        var color = d3.scale.category20(),
-            colorb = d3.scale.category10();
+          var color = d3.scale.category20(),
+              colorb = d3.scale.category10();
 
-        var packageGravity = 0.01;
+          var packageGravity = 0.03;
 
-        var forceP = d3.layout.force()
-            .gravity(packageGravity)
-            .nodes(nodesP)
-            .size([width, height]);
+          var forceP = d3.layout.force()
+              .gravity(packageGravity)
+              .nodes(nodesP)
+              .size([width, height]);
 
-        var tickCount =0;
+          var tickCount =0;
 
-        var omgColorIndex=0;
+          var omgColorIndex=0;
 
-        forceP.start();
-        
-
-        svg.selectAll("#package-circle")
-            .data(nodesP)
-          .enter().append("circle")
-            .attr("id", "package-circle")
-            .attr("r", function(d) { return d.radius; })
-            .style("fill", function(d, i) { return color(i % 20); });
-
-        svg.append("rect")  //for OMG Particle elements
-                .attr("width", width)
-                .attr("height", height);
-
-
-        forceP.on("tick", function() {
-          var q = d3.geom.quadtree(nodesP),
-              i = 0,
-              n = nodesP.length;
-
-          while (++i < n) q.visit(packageCollide(nodesP[i]));
+          forceP.start();
+          
 
           svg.selectAll("#package-circle")
-              .attr("cx", function(d) { return d.x; })
-              .attr("cy", function(d) { return d.y; });
-
-          tickCount++;
-          if(tickCount == 290){
-            tickCount =0;
-            forceP.stop();
-          }
-        });
-
-        forceP.on("end", function(e) {
-          
-          for(i =0; i<nodesP.length; i++){
-            packageXY.push({"x":nodesP[i].x * 2, "y":nodesP[i].y *2});
-          }
-
-          obj_forceC = {}
-          obj_nodesC = {}
-          
-          for(i =0; i<packageNum; i++){
-            var nodesC = d3.range(7).map(function() { return {radius: 17}; });
-            obj_nodesC[i] = nodesC;
-
-            obj_forceC[i] = d3.layout.force()
-              .gravity((Math.floor(Math.random() * (85 - 35 + 1)) + 35)/1000) //0.035 ~ 0.085
-              .nodes(nodesC)
-              .size([packageXY[i].x, packageXY[i].y]);
-
-            svg.selectAll("#class-circle-" + packageList[i])
-              .data(nodesC)
+              .data(nodesP)
             .enter().append("circle")
-              .attr("id", "class-circle-" + packageList[i])
-              .attr("r", function(d) { return d.radius; });
+              .attr("id", "package-circle")
+              .attr("r", function(d) { return d.radius; })
+              .style("fill", function(d, i) { return color(i % 20); });
 
-            obj_forceC[i].on("tick", function() {    //moving class circles
-              var q = d3.geom.quadtree(obj_nodesC[packageIndex]), //class collision
-                  j = 0,
-                  len = obj_nodesC[packageIndex].length;
+          svg.append("rect")  //for OMG Particle elements
+                  .attr("width", width)
+                  .attr("height", height);
 
-              while (++j < len) q.visit(classCollide(obj_nodesC[packageIndex][j]));
 
-              svg.selectAll("#class-circle-" + packageList[packageIndex])
-                  .attr("cx", function(d) { return d.x; })
-                  .attr("cy", function(d) { return d.y; })
-                  .style("fill", function(d, i) { return blendWithWhite(color(packageIndex % 20)); });
+          forceP.on("tick", function() {
+            var q = d3.geom.quadtree(nodesP),
+                i = 0,
+                n = nodesP.length;
 
-              tickCount++;
-              if(tickCount == 140){
-                tickCount =0;
-                obj_forceC[packageIndex].stop();
-              }
+            while (++i < n) q.visit(packageCollide(nodesP[i]));
 
-            });
+            svg.selectAll("#package-circle")
+                .attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; });
 
-            obj_forceC[i].on("end", function() {
-              packageIndex++;
-              
-              if(packageIndex < packageNum){
-                obj_forceC[packageIndex].start();
-              }
-            });
+            tickCount++;
+            if(tickCount == 150){
+              tickCount =0;
+              forceP.stop();
+            }
+          });
+
+          forceP.on("end", function(e) {
+            
+            for(i =0; i<nodesP.length; i++){
+              packageXY.push({"x":nodesP[i].x * 2, "y":nodesP[i].y *2});
+            }
+
+            obj_forceC = {}
+            obj_nodesC = {}
+            
+            for(i =0; i<packageNum; i++){
+              var nodesC = d3.range(packages[i].number_of_class)
+                             .map(function() { return {radius: 17}; });
+              obj_nodesC[i] = nodesC;
+
+              obj_forceC[i] = d3.layout.force()
+                .gravity(packages[i].instability/15) //0.035 ~ 0.085
+                .nodes(nodesC)
+                .size([packageXY[i].x, packageXY[i].y]);
+
+              svg.selectAll("#class-circle-" + packages[i].package_name)
+                .data(nodesC)
+              .enter().append("circle")
+                .attr("id", "class-circle-" + packages[i].package_name)
+                .attr("r", function(d) { return d.radius; });
+
+              obj_forceC[i].on("tick", function() {    //moving class circles
+                var q = d3.geom.quadtree(obj_nodesC[packageIndex]), //class collision
+                    j = 0,
+                    len = obj_nodesC[packageIndex].length;
+
+                while (++j < len) q.visit(classCollide(obj_nodesC[packageIndex][j]));
+
+                svg.selectAll("#class-circle-" + packages[packageIndex].package_name)
+                    .attr("cx", function(d) { return d.x; })
+                    .attr("cy", function(d) { return d.y; })
+                    .style("fill", function(d, i) { return blendWithWhite(color(packageIndex % 20)); });
+
+                tickCount++;
+                if(tickCount == 100){
+                  tickCount =0;
+                  obj_forceC[packageIndex].stop();
+                }
+
+              });
+
+              obj_forceC[i].on("end", function() {
+                packageIndex++;
+                
+                if(packageIndex < packageNum){
+                  obj_forceC[packageIndex].start();
+                }
+              });
+            }
+
+            obj_forceC[0].start();
+          });
+
+          function blendWithWhite(hex){
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            result =  result ? {
+                        r: parseInt(result[1], 16),
+                        g: parseInt(result[2], 16),
+                        b: parseInt(result[3], 16)
+                    } : null;
+            result.r = Math.floor((result.r + 255) / 2);
+            result.g = Math.floor((result.g + 255) / 2);
+            result.b = Math.floor((result.b + 255) / 2);
+
+            return "#" + componentToHex(result.r) + componentToHex(result.g) + componentToHex(result.b);
           }
 
-          obj_forceC[0].start();
+          function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+          }
+
+          function packageCollide(node) {
+            var r = node.radius + 16,
+                nx1 = node.x - r,
+                nx2 = node.x + r,
+                ny1 = node.y - r,
+                ny2 = node.y + r;
+            return function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== node)) {
+                var x = node.x - quad.point.x,
+                    y = node.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y),
+                    r = node.radius + quad.point.radius;
+                if (l < r) {
+                  packageCollideAnimation(node.x,node.y, color(node.index));
+                  l = (l - r) / l * .5;
+                  node.x -= x *= l;
+                  node.y -= y *= l;
+                  quad.point.x += x + 0.11;
+                  quad.point.y += y + 0.11;
+                }
+              }
+              return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            };
+          }
+
+          function packageCollideAnimation(x, y, i) {
+            svg.insert("circle", "rect")
+                .attr("id", "omg-particle")
+                .attr('class', 'overlay')
+                .attr("cx", x)
+                .attr("cy", y)
+                .attr("r", 80)
+                .style("stroke", i) 
+                .style("stroke-opacity", 0.35)
+              .transition()
+                .duration(500)
+                .ease(Math.sqrt)
+                .attr("r", 125)
+                .style("stroke-opacity", 1e-6)
+                .remove();
+          }
+
+          function classCollide(node) {
+            var r = node.radius + 3,
+                nx1 = node.x - r,
+                nx2 = node.x + r,
+                ny1 = node.y - r,
+                ny2 = node.y + r;
+            return function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== node)) {
+                var x = node.x - quad.point.x,
+                    y = node.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y),
+                    r = node.radius + quad.point.radius;
+                if (l < r) {
+                  classCollideAnimation(node.x,node.y, colorb(node.index));
+                  l = (l - r) / l * .5;
+                  node.x -= x *= l;
+                  node.y -= y *= l;
+                  quad.point.x += x + 0.1;
+                  quad.point.y += y + 0.1;
+                }
+              }
+              return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            };
+          }
+
+          function classCollideAnimation(x, y, i) {
+            svg.insert("circle", "rect")
+                .attr("id", "omg-asdas")
+                .attr('class', 'none')
+                .attr("cx", x)
+                .attr("cy", y)
+                .attr("r", 10)
+                .style("stroke", i) 
+                .style("stroke-opacity", 0.7)
+              .transition()
+                .duration(2500)
+                .ease(Math.sqrt)
+                .attr("r", 130)
+                .style("stroke-opacity", 1e-6)
+                .remove();
+          }
         });
-
-        function blendWithWhite(hex){
-          var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-          result =  result ? {
-                      r: parseInt(result[1], 16),
-                      g: parseInt(result[2], 16),
-                      b: parseInt(result[3], 16)
-                  } : null;
-          result.r = Math.floor((result.r + 255) / 2);
-          result.g = Math.floor((result.g + 255) / 2);
-          result.b = Math.floor((result.b + 255) / 2);
-
-          return "#" + componentToHex(result.r) + componentToHex(result.g) + componentToHex(result.b);
-        }
-
-        function componentToHex(c) {
-          var hex = c.toString(16);
-          return hex.length == 1 ? "0" + hex : hex;
-        }
-
-        function packageCollide(node) {
-          var r = node.radius + 16,
-              nx1 = node.x - r,
-              nx2 = node.x + r,
-              ny1 = node.y - r,
-              ny2 = node.y + r;
-          return function(quad, x1, y1, x2, y2) {
-            if (quad.point && (quad.point !== node)) {
-              var x = node.x - quad.point.x,
-                  y = node.y - quad.point.y,
-                  l = Math.sqrt(x * x + y * y),
-                  r = node.radius + quad.point.radius;
-              if (l < r) {
-                packageCollideAnimation(node.x,node.y, color(node.index));
-                l = (l - r) / l * .5;
-                node.x -= x *= l;
-                node.y -= y *= l;
-                quad.point.x += x + 0.11;
-                quad.point.y += y + 0.11;
-              }
-            }
-            return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-          };
-        }
-
-        function packageCollideAnimation(x, y, i) {
-          svg.insert("circle", "rect")
-              .attr("id", "omg-particle")
-              .attr('class', 'overlay')
-              .attr("cx", x)
-              .attr("cy", y)
-              .attr("r", 80)
-              .style("stroke", i) 
-              .style("stroke-opacity", 0.35)
-            .transition()
-              .duration(500)
-              .ease(Math.sqrt)
-              .attr("r", 125)
-              .style("stroke-opacity", 1e-6)
-              .remove();
-        }
-
-        function classCollide(node) {
-          var r = node.radius + 3,
-              nx1 = node.x - r,
-              nx2 = node.x + r,
-              ny1 = node.y - r,
-              ny2 = node.y + r;
-          return function(quad, x1, y1, x2, y2) {
-            if (quad.point && (quad.point !== node)) {
-              var x = node.x - quad.point.x,
-                  y = node.y - quad.point.y,
-                  l = Math.sqrt(x * x + y * y),
-                  r = node.radius + quad.point.radius;
-              if (l < r) {
-                classCollideAnimation(node.x,node.y, colorb(node.index));
-                l = (l - r) / l * .5;
-                node.x -= x *= l;
-                node.y -= y *= l;
-                quad.point.x += x + 0.1;
-                quad.point.y += y + 0.1;
-              }
-            }
-            return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-          };
-        }
-
-        function classCollideAnimation(x, y, i) {
-          svg.insert("circle", "rect")
-              .attr("id", "omg-asdas")
-              .attr('class', 'none')
-              .attr("cx", x)
-              .attr("cy", y)
-              .attr("r", 10)
-              .style("stroke", i) 
-              .style("stroke-opacity", 0.7)
-            .transition()
-              .duration(2500)
-              .ease(Math.sqrt)
-              .attr("r", 130)
-              .style("stroke-opacity", 1e-6)
-              .remove();
-        }
 
       </script>
   </body>
