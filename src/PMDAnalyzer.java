@@ -21,10 +21,15 @@ public class PMDAnalyzer extends Analyzer {
 	
 	public int analyzeThis() {
 		int violations = 0;
+		getAllPackageLoc();
+		Process p;
 		try{	
-			System.out.println("cmd /c " + pmd_loc +  " -d " + this.src + " -f xml -R rulesets/java/basic.xml");
-			Process p = Runtime.getRuntime().exec("cmd /c " + pmd_loc +  " -d " + this.src + " -f xml -R rulesets/java/basic.xml");
-			//Process p = Runtime.getRuntime().exec("cmd /c E:/UBC/cpsc410/CPSC410/pmd/bin -d E:/UBC/cpsc410/CPSC410/Sponge(CPSC410CodeBase1) -f xml -R rulesets/java/basic.xml");
+			if (System.getProperty("os.name").equalsIgnoreCase("Mac OS X")) {
+				p = Runtime.getRuntime().exec("." + pmd_loc + "/run.sh" + " pmd" + " -d " + src + " -f xml -R rulesets/java/basic.xml -version 1.7 -language java");
+				
+			} else {
+				p = Runtime.getRuntime().exec("cmd /c " + pmd_loc +  " -d " + src + " -f xml -R rulesets/java/basic.xml");
+			}
 			DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 			Document doc = (Document) fac.newDocumentBuilder().parse(p.getInputStream());
 			
@@ -33,11 +38,12 @@ public class PMDAnalyzer extends Analyzer {
 			violations = nodeList.getLength();
 			
 			System.out.println("\nNumber of " + pattern + " : " + nodeList.getLength());
-			
+			/*
 			for(int i = 0; i < nodeList.getLength(); i++){
 				System.out.println(nodeList.item(i).getTextContent());
-			}
-			
+
+			}*/
+
 			
 		} catch (IOException e){
 			e.printStackTrace();
@@ -46,7 +52,6 @@ public class PMDAnalyzer extends Analyzer {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}	
-		System.out.println("Done!");
 		
 		return violations;
 	}
