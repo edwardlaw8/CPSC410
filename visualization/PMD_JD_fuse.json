@@ -1,1 +1,18 @@
+<<<<<<< HEAD
+{
+	"violations":40,
+	"package_info":
+	[
+	{
+		"number_of_class":36,
+		"instability":0.7142857313156128,
+		"package_name":"spark"},
+	{
+		"number_of_class":1,
+		"instability":1,
+		"package_name":"spark.examples.books"
+	},
+	{"number_of_class":3,"instability":1,"package_name":"spark.examples.exception"},{"number_of_class":1,"instability":1,"package_name":"spark.examples.filter"},{"number_of_class":1,"instability":1,"package_name":"spark.examples.templateview"},{"number_of_class":2,"instability":1,"package_name":"spark.examples.transformer"},{"number_of_class":2,"instability":0.6000000238418579,"package_name":"spark.exception"},{"number_of_class":9,"instability":0.8888888955116272,"package_name":"spark.resource"},{"number_of_class":5,"instability":0.5714285969734192,"package_name":"spark.route"},{"number_of_class":7,"instability":0.9375,"package_name":"spark.servlet"},{"number_of_class":2,"instability":0.9333333373069763,"package_name":"spark.util"},{"number_of_class":12,"instability":0.5555555820465088,"package_name":"spark.utils"},{"number_of_class":7,"instability":0.8947368264198303,"package_name":"spark.webserver"}]}
+=======
 {"violations":6,"package_info":[]}
+>>>>>>> 7b3f315a0a4022481bdfef72e4d94d92340020fd
