@@ -57,7 +57,9 @@ public class Runner {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Fuser fuser = new Fuser(violations, packageList);
+		Fuser fuser = new Fuser();
+		System.out.println("violations: " + violations);
+		fuser.PMD_JD_fuse(violations, packageList);
 		
 		//Add output of Fuser (two .jsons) to Visualizer
 		/*try {

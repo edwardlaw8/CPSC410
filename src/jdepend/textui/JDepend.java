@@ -136,8 +136,8 @@ public class JDepend {
                 //System.out.println(prefix + " : " + jp.getClassCount());
                 JSONObject aPackageInfo = new JSONObject();
                 try {
-					aPackageInfo.put("package-name", jp.getClassCount());
-	                aPackageInfo.put("number-of-class", jp.getName());
+					aPackageInfo.put("package-name", jp.getName());
+	                aPackageInfo.put("number-of-class", jp.getClassCount());
 	                aPackageInfo.put("instability", jp.instability());
 				} catch (JSONException e) {
 					System.out.println("[Jdepend analyze()] JSON!!!");
