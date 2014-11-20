@@ -1,0 +1,22 @@
+[
+  {
+    "packagename": "fm.last.musicbrainz.data.dao",
+    "create-date": "2012-07-26T14:29:37Z"
+  },
+  {
+    "packagename": "fm.last.musicbrainz.data.dao.impl",
+    "create-date": "2012-07-26T14:29:37Z"
+  },
+  {
+    "packagename": "fm.last.musicbrainz.data.hibernate",
+    "create-date": "2012-07-26T14:29:37Z"
+  },
+  {
+    "packagename": "fm.last.musicbrainz.data.model",
+    "create-date": "2012-07-26T14:29:37Z"
+  },
+  {
+    "packagename": "fm.last.musicbrainz.data",
+    "create-date": "2012-07-26T14:29:37Z"
+  }
+] 
