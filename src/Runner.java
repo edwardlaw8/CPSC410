@@ -14,7 +14,8 @@ public class Runner {
 		System.out.println("pmd loc in runner: " + pmd_loc);
 		String pattern = "violation";
 		String src1 = dir + "/musicbrainz(CPSCCodeBase4)";
-		String src2 = dir + "/spark(CPSC410CodeBase3)";
+		String src2 = dir + "/spark-master(CPSC410CodeBase3)";
+
 		String repoName1 = "fm";
 		String repoName2 = "spark";
 		
