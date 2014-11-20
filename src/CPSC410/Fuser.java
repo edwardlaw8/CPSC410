@@ -57,7 +57,7 @@ public class Fuser {
 		}
 	}
 
-	private JSONArray creation_date_fuse(JSONArray packageList, String repoName) {
+	public JSONArray creation_date_fuse(JSONArray packageList, String repoName) {
 		
 		FileReader creation_date_file;
 		JSONArray sorted_packages = new JSONArray();
@@ -65,8 +65,10 @@ public class Fuser {
 			
 			if (repoName.equalsIgnoreCase("fm")) {
 				creation_date_file = new FileReader(dir + "/custom-github-analyzer/packagesequence_musicbrainz.json");
-			} else {
+			} else if (repoName.equalsIgnoreCase("spark")) {
 				creation_date_file = new FileReader(dir + "/custom-github-analyzer/packagesequence.json");
+			} else {
+				throw new IllegalArgumentException();
 			}
 		
 			BufferedReader reader = new BufferedReader(creation_date_file);
@@ -112,6 +114,8 @@ public class Fuser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		
