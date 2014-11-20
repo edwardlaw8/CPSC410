@@ -59,7 +59,7 @@ public class Runner {
 		}
 		Fuser fuser = new Fuser();
 		System.out.println("violations: " + violations);
-		fuser.PMD_JD_fuse(violations, packageList);
+		fuser.PMD_JD_fuse(violations, packageList, repoName);
 		
 		//Add output of Fuser (two .jsons) to Visualizer
 		/*try {

@@ -32,12 +32,12 @@ public class Fuser {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void PMD_JD_fuse(int violations, JSONArray packageList) {
+	public void PMD_JD_fuse(int violations, JSONArray packageList, String repoName) {
 		File jd_output_file;
 		FileWriter fw = null;
 		JSONObject fused_json = new JSONObject();
 		try {
-			JSONArray sorted_packages = creation_date_fuse(packageList);
+			JSONArray sorted_packages = creation_date_fuse(packageList, repoName);
 			
 			fused_json.put("violations", violations);
 			fused_json.put("package_info", sorted_packages);
@@ -57,12 +57,17 @@ public class Fuser {
 	}
 
 	@SuppressWarnings("unchecked")
-	private JSONArray creation_date_fuse(JSONArray packageList) {
+	private JSONArray creation_date_fuse(JSONArray packageList, String repoName) {
 		
 		FileReader creation_date_file;
 		JSONArray sorted_packages = new JSONArray();
 		try {
-			creation_date_file = new FileReader(dir + "/custom-github-analyzer/packagesequence.json");
+			
+			if (repoName.equalsIgnoreCase("fm")) {
+				creation_date_file = new FileReader(dir + "/custom-github-analyzer/packagesequence_musicbrainz.json");
+			} else {
+				creation_date_file = new FileReader(dir + "/custom-github-analyzer/packagesequence.json");
+			}
 		
 			BufferedReader reader = new BufferedReader(creation_date_file);
 	
