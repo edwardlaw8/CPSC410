@@ -1,19 +1,16 @@
-import java.util.ArrayList;
-
-import org.javatuples.Triplet;
-
 import jdepend.textui.JDepend;
+import org.json.JSONArray;
 
 
 public class JDAnalyzer extends Analyzer {
 	
-	ArrayList JDependOutput;
+	JSONArray JDependOutput;
 
 	public JDAnalyzer(String src, String repoName) {
 		super(src, repoName);
 	}
 
-	public ArrayList analyzeThis() {
+	public JSONArray analyzeThis() {
 		
 	//	JDepend jd = new JDepend();
 		String dir = System.getProperty("user.dir");

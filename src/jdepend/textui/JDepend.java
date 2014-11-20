@@ -4,9 +4,11 @@ import java.io.*;
 import java.util.*;
 import java.text.NumberFormat;
 
-import org.javatuples.Triplet;
-
 import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import jdepend.framework.JavaClass;
 import jdepend.framework.JavaPackage;
@@ -107,7 +109,7 @@ public class JDepend {
      * Analyzes the registered directories, generates metrics for each Java
      * package, and reports the metrics.
      */
-    public ArrayList analyze() {
+    public JSONArray analyze() {
 
 //        printHeader();
 
@@ -117,27 +119,34 @@ public class JDepend {
 
         Collections.sort(packageList, new PackageComparator(PackageComparator
                 .byName()));
-        ArrayList<JsonObject> returnedJson = new ArrayList<JsonObject>();
+        JSONArray returnedJson = new JSONArray();
         //----------------------------
-        System.out.println("collection size: " + packages.size());
-        System.out.println("arraylist size: " + packageList.size());
-        Iterator i = packages.iterator();
+        //System.out.println("collection size: " + packages.size());
+        //System.out.println("arraylist size: " + packageList.size());
         for(int j = 0; j < packageList.size(); j++) {
         	
             JavaPackage jp = (JavaPackage) packageList.get(j);
-            String prefix = jp.getName().split(".")[0];
-            System.out.println("prefix : " + prefix + " : " + jp.getName());
-            System.out.println(prefix + " : " + jp.instability());
-            System.out.println(prefix + " : " + jp.getClassCount());
-            if(prefix == this.repoName){
-                JsonObject aPackageInfo = new JsonObject();
-                aPackageInfo.addProperty("package-name", jp.getClassCount());
-                aPackageInfo.addProperty("number-of-class", jp.getName());
-                aPackageInfo.addProperty("instability", jp.instability());
-                returnedJson.add(aPackageInfo);
+            //System.out.println("package name : " + jp.getName());
+            String prefix = jp.getName().split("\\.")[0];
+           // System.out.println("package name : " + prefix);
+
+            if(prefix.equals(this.repoName)){
+                //System.out.println("prefix : " + prefix + " : " + jp.getName());
+                //System.out.println(prefix + " : " + jp.instability());
+                //System.out.println(prefix + " : " + jp.getClassCount());
+                JSONObject aPackageInfo = new JSONObject();
+                try {
+					aPackageInfo.put("package-name", jp.getClassCount());
+	                aPackageInfo.put("number-of-class", jp.getName());
+	                aPackageInfo.put("instability", jp.instability());
+				} catch (JSONException e) {
+					System.out.println("[Jdepend analyze()] JSON!!!");
+					e.printStackTrace();
+				}
+
+                returnedJson.put(aPackageInfo);
             }
         }
-
         return returnedJson;
     }
 /*
@@ -522,7 +531,7 @@ public class JDepend {
         System.exit(1);
     }
 
-    protected ArrayList instanceMain(String args, String repoName) {
+    protected JSONArray instanceMain(String args, String repoName) {
     	this.repoName = repoName;
         int directoryCount = 0;
         try {
@@ -538,7 +547,7 @@ public class JDepend {
         return analyze();
     }
 
-    public static ArrayList main(String args, String repoName) {
+    public static JSONArray main(String args, String repoName) {
     	
         return new JDepend().instanceMain(args, repoName);
     }
