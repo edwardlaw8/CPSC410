@@ -9,8 +9,8 @@ public class JDAnalyzer extends Analyzer {
 	
 	ArrayList JDependOutput;
 
-	public JDAnalyzer(String src) {
-		super(src);
+	public JDAnalyzer(String src, String repoName) {
+		super(src, repoName);
 	}
 
 	public ArrayList analyzeThis() {
@@ -20,7 +20,7 @@ public class JDAnalyzer extends Analyzer {
 		//String args = dir + this.src;
 		
 		//TODO: Need way to grab package names and classes in each package
-		JDependOutput = JDepend.main(this.src);
+		JDependOutput = JDepend.main(this.src, this.repoName);
 		
 		
 		return JDependOutput;

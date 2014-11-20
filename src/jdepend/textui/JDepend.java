@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.*;
 import java.text.NumberFormat;
 
+import org.javatuples.Triplet;
+
+import com.google.gson.JsonObject;
+
 import jdepend.framework.JavaClass;
 import jdepend.framework.JavaPackage;
 import jdepend.framework.PackageComparator;
@@ -25,6 +29,8 @@ public class JDepend {
     private PrintWriter writer;
 
     protected NumberFormat formatter;
+    
+    protected String repoName;
 
     /**
      * Constructs a <code>JDepend</code> instance using standard output.
@@ -111,50 +117,48 @@ public class JDepend {
 
         Collections.sort(packageList, new PackageComparator(PackageComparator
                 .byName()));
-        
+        ArrayList<JsonObject> returnedJson = new ArrayList<JsonObject>();
         //----------------------------
         System.out.println("collection size: " + packages.size());
         System.out.println("arraylist size: " + packageList.size());
         Iterator i = packages.iterator();
         for(int j = 0; j < packageList.size(); j++) {
-            JavaPackage jp = (JavaPackage) packageList.get(j);	
-            System.out.println(i + " : " + jp.getName());
-            System.out.println(i + " : " + jp.instability());
-          }
-        
+        	
+            JavaPackage jp = (JavaPackage) packageList.get(j);
+            String prefix = jp.getName().split(".")[0];
+            System.out.println("prefix : " + prefix + " : " + jp.getName());
+            System.out.println(prefix + " : " + jp.instability());
+            System.out.println(prefix + " : " + jp.getClassCount());
+            if(prefix == this.repoName){
+                JsonObject aPackageInfo = new JsonObject();
+                aPackageInfo.addProperty("package-name", jp.getClassCount());
+                aPackageInfo.addProperty("number-of-class", jp.getName());
+                aPackageInfo.addProperty("instability", jp.instability());
+                returnedJson.add(aPackageInfo);
+            }
+        }
 
-        //----------------------------------
-        //printPackages(packageList);
-
-//       printCycles(packageList);
-
-//        printSummary(packageList);
-
-//       printFooter();
-
-//        getWriter().flush();
-        
-        return packageList;
+        return returnedJson;
     }
-
+/*
     protected void printPackages(Collection packages) {
- //       printPackagesHeader();
+       printPackagesHeader();
 
         Iterator i = packages.iterator();
         while (i.hasNext()) {
             printPackage((JavaPackage) i.next());
         }
 
-//        printPackagesFooter();
+       printPackagesFooter();
     }
 
     protected void printPackage(JavaPackage jPackage) {
 
-//        printPackageHeader(jPackage);
+      printPackageHeader(jPackage);
 
         if (jPackage.getClasses().size() == 0) {
             printNoStats();
-//           printPackageFooter(jPackage);
+        printPackageFooter(jPackage);
             return;
         }
 
@@ -171,7 +175,7 @@ public class JDepend {
         PNClassesInstability.add(PNCI);
 
 
- //       printStatistics(jPackage);
+        printStatistics(jPackage);
         printNumberofClasses(jPackage);
         printInstabilityRating(jPackage);
         printPackageNames(jPackage);
@@ -193,7 +197,7 @@ public class JDepend {
 //        printAfferents(jPackage);
 
 //        printPackageFooter(jPackage);
-    */}
+    }*/
 
     private String printPackageNames(JavaPackage jPackage) {
     	return jPackage.getName();
@@ -518,8 +522,8 @@ public class JDepend {
         System.exit(1);
     }
 
-    protected ArrayList instanceMain(String args) {
-
+    protected ArrayList instanceMain(String args, String repoName) {
+    	this.repoName = repoName;
         int directoryCount = 0;
         try {
                     addDirectory(args);
@@ -534,7 +538,8 @@ public class JDepend {
         return analyze();
     }
 
-    public static ArrayList main(String args) {
-        return new JDepend().instanceMain(args);
+    public static ArrayList main(String args, String repoName) {
+    	
+        return new JDepend().instanceMain(args, repoName);
     }
 }

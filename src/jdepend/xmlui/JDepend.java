@@ -210,7 +210,7 @@ public class JDepend extends jdepend.textui.JDepend {
     /**
      * Main.
      */
-    public ArrayList jdAnaylze(String args) {
-        return new JDepend().instanceMain(args);
+    public ArrayList jdAnaylze(String args, String repoName) {
+        return new JDepend().instanceMain(args, repoName);
     }
 }
