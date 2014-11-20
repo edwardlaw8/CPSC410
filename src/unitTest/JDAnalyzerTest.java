@@ -1,34 +1,33 @@
 package unitTest;
 
-import static org.junit.Assert.*;
+import org.json.JSONArray;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import CPSC410.JDAnalyzer;
 
 public class JDAnalyzerTest {
+	private static final String dir = System.getProperty("user.dir");
+	private static final String src = dir + "/musicbrainz(CPSCCodeBase4)";
+	private static final String repoName = "fm";
+	static JDAnalyzer jd = new JDAnalyzer(src, repoName);
+	static JSONArray JDOutput = jd.analyzeThis();
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	//Test for if empty
+	public static boolean isOutputEmpty() {
+		if (JDOutput.getClass() != null ) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
+	
+	//Test if output is even a JSONArray
+	public static boolean isOutputJSON() {
+		if(JDOutput instanceof JSONArray ) {
+			return true;
+		}
+		return false;
+		
 	}
 
 }
