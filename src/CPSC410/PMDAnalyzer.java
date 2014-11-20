@@ -1,3 +1,4 @@
+package CPSC410;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,7 +28,7 @@ public class PMDAnalyzer extends Analyzer {
 		return violations;
 	}
 	
-	private int getviolations(String ruleset) {
+	public int getviolations(String ruleset) {
 		int violations = 0;
 		try {
 			Process p;
@@ -44,9 +45,9 @@ public class PMDAnalyzer extends Analyzer {
 			violations = nodeList.getLength();
 			System.out.println("\nNumber of " + pattern + " : " + nodeList.getLength());
 			
-			for(int i = 0; i < nodeList.getLength(); i++){
+			/*for(int i = 0; i < nodeList.getLength(); i++){
 				System.out.println(nodeList.item(i).getTextContent());
-			}
+			}*/
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			e.printStackTrace();
 		}

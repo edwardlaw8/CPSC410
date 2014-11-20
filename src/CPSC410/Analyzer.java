@@ -1,3 +1,4 @@
+package CPSC410;
 
 public abstract class Analyzer {
 	
