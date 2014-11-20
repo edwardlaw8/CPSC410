@@ -14,7 +14,7 @@
         <script type="text/javascript">
           
             var commitAPI = "https://api.github.com/repos/perwendel/spark/commits";
-            //var commitAPI = "https://api.github.com/repos/cloudera/oryx/commits";
+            //var commitAPI = "https://api.github.com/repos/lastfm/musicbrainz-data/commits";
             var commitSequence = [];
             var packageCreationSequence = [];
             var packageCreationMap = []; //for hashing only
@@ -36,7 +36,6 @@
                         commitSequence.push({"sha": data[j].sha,
                                              //"name": data[j].author.login,
                                              "time": data[j].commit.committer.date});
-                        //console.log(data[j].author.login + 1); 
                       });
                     } 
                   });
@@ -59,8 +58,6 @@
                     type: 'GET',
                     dataType: 'json',
                     async: false,                               //Request page in the order we want                 
-                    //success: function() { window.alert( "success" ); },
-                    //error: function() { alert( "fail" ); },
                     beforeSend: setHeader
                    })
                     .done(function( data ) {                    //Extract package name
