@@ -1,13 +1,7 @@
-ckagename": "spark",
+[
+  {
+    "packagename": "spark",
     "create-date": "2011-05-05T11:59:08Z"
-  },
-  {
-    "packagename": "org.scannotation",
-    "create-date": "2011-05-11T15:00:31Z"
-  },
-  {
-    "packagename": "org.scannotation.archiveiterator",
-    "create-date": "2011-05-11T15:00:31Z"
   },
   {
     "packagename": "spark.routefinder",

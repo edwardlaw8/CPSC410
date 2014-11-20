@@ -78,7 +78,7 @@
                               var packagename = file.patch.substring(package_name_start_index, package_name_ending_index);
 
                               if(jQuery.inArray(packagename, packageCreationMap) == -1 ) {
-                                if(packagename.indexOf(" ") == -1){
+                                if(!(packagename.indexOf(" ") != -1 || packagename.indexOf("org") != -1)){
                                   console.log(packagename);
                                   console.log(data.commit.author.date);
                                   packageCreationMap.push(packagename);

@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,12 +16,20 @@ public class Runner {
 		System.out.println("pmd loc in runner: " + pmd_loc);
 		String pattern = "violation";
 		String src1 = dir + "/Sponge(CPSC410CodeBase1)";
+		String src3 = dir + "/spark-master(CPSC410CodeBase3)";
 		String src2 = dir + "/twoway-view(CPSC410CodeBase2)";
-		String src3 = dir + "/spark(CPSC410CodeBase3)";
+
+		//String src3 = dir + "/spark(CPSC410CodeBase3)";
 		
 		String repoName1 = "Sponge";
 		String repoName2 = "twoway-view";
 		String repoName3 = "spark";
+
+		File file = new File(dir + pmd_loc + "/run.sh");
+		file.setWritable(true, false);
+		file.setReadable(true, false);
+		file.setExecutable(true, false);
+
        
 		Runtime rt = Runtime.getRuntime();
 		Scanner s = new Scanner(System.in);
@@ -41,6 +50,7 @@ public class Runner {
 			JDAnalyzer jdAnalyzer = new JDAnalyzer(src1, repoName3);
 			ArrayList packageList = jdAnalyzer.analyzeThis();
 			System.out.print("[Runner]: packageList size " + packageList.size());
+
 			Fuser fuser = new Fuser(violations, packageList);
 		}
 		
@@ -57,7 +67,6 @@ public class Runner {
 		try {
 			Process visualization = rt.exec("open index.html");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
