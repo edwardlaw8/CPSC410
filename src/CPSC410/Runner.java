@@ -25,6 +25,7 @@ public class Runner {
 		Runtime rt = Runtime.getRuntime();
 		Scanner s = new Scanner(System.in);
 		String userinputStr;
+		Process visualization;
 	
 		System.out.println("Which Codebase Would You Like to Analyze? \nEnter (1) for Musicbrainz \nEnter (2) Spark-master?");
 		int userinput = -1;
@@ -61,16 +62,16 @@ public class Runner {
 		}
 		Fuser fuser = new Fuser();
 		System.out.println("violations: " + violations);
-		fuser.PMD_JD_fuse(violations, packageList);
+		fuser.PMD_JD_fuse(violations, packageList, repoName);
 		
 		//Add output of Fuser (two .jsons) to Visualizer
-		/*try {
-			Process visualization = rt.exec("open index.html");
+		try {
+			visualization = rt.exec("cmd /c start " + dir + "/visualization/index.html");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		
 		
 	}
-	
+	}
 	
 }
